@@ -10,6 +10,7 @@ class Utils(object):
         'email': 'politician@app.com',
         'phone_number': '+254726094972',
         'passportUrl' : 'some/url/pass.jpg',
+        'address': '123 fith street',
         'password': 'password',
         'user_type': 'admin'
     }
@@ -20,6 +21,7 @@ class Utils(object):
         'email': 'admin@app.com',
         'phone_number': '+254726094972',
         'passportUrl' : 'some/url/pass.jpg',
+        'home_county': 'Rongai',
         'password': 'password',
         'user_type': 'politician'
     }
