@@ -13,7 +13,6 @@ class Politico(object):
 
     def register_user(self, user_data):
         # check if user exists
-        print(user_data)
         if self.get_user(user_data['email']) == 'Not found':
             # Add user as they don't exist
             if user_data['user_type'] == 'admin':
@@ -28,3 +27,13 @@ class Politico(object):
             return 'User added'
         else:
             return "User already exists"
+    
+    def login_user(self, email, password):
+        user = self.get_user(email)
+        if user == 'Not found':
+            return 'Invalid credentials'
+        elif isinstance(user, models.user.User):
+            if user.password == password:
+                return user.id
+            else:
+                return 'Invalid credentials'
