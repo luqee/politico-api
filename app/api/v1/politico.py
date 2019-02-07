@@ -4,10 +4,17 @@ from app.api.v1 import models
 class Politico(object):
     def __init__(self):
         self.registered_users = []
+        self.registered_parties = []
     
     def get_user(self, email):
         for user in self.registered_users:
             if user.email == email:
+                return user
+        return 'Not found'
+    
+    def get_user_by_id(self, user_id):
+        for user in self.registered_users:
+            if user.id == int(user_id):
                 return user
         return 'Not found'
 
@@ -37,3 +44,10 @@ class Politico(object):
                 return user.id
             else:
                 return 'Invalid credentials'
+
+    def create_party(self, current_user, party):
+        if current_user.user_type == 'admin':
+            party.id = len(self.registered_parties) + 1
+            self.registered_parties.append(party)
+            return 'Party created'
+        return 'Not authorised'
