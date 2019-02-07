@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, g
-from app.api.v1.models import party
+from app.api.v1.models.party import Party
 from app import politico
 from .decorators import login_required
 
@@ -14,7 +14,7 @@ def create_party():
     logo_url = data['logo_url']
     description = data['description']
     
-    new_party = party.Party(name=name, hq_address=hq_address, logo_url=logo_url, description=description)
+    new_party = Party(name=name, hq_address=hq_address, logo_url=logo_url, description=description)
     result = politico.create_party(g.user, new_party)
     if result == 'Party created':
         response = {
@@ -28,3 +28,24 @@ def create_party():
             'error': 'You need to login before creating a party'
         }
         return jsonify(response), 400
+
+@party_blueprint.route('/parties/<int:party_id>', methods=['GET'])
+def get_party(party_id):
+    party = politico.get_party_by_id(party_id)
+    if party == 'Not found':
+        response = {
+            'status': 404,
+            'error': 'Party not found'
+        }        
+        return jsonify(response), 404
+    if type(party) == Party:
+        response = {
+            'status': 200,
+            'data':[]
+        }
+        response['data'].append({
+            'id': party.id,
+            'name': party.name,
+            'logo_url': party.logo_url
+        })
+        return jsonify(response), 200
