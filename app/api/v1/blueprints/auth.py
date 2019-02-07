@@ -44,6 +44,6 @@ def login():
     }
     response_data['data'].append({
         'message': 'Successfull log in',
-        'user_id': result
+        'auth_token': result.decode()
     })
     return jsonify(response_data), 200        

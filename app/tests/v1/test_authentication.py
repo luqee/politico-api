@@ -38,4 +38,4 @@ def test_user_login(client):
     assert json_data['status'] == 200
     assert type(json_data['data']) == list
     assert json_data['data'][0]['message'] == 'Successfull log in'
-    assert type(json_data['data'][0]['user_id']) == int
+    assert json_data['data'][0]['auth_token'] is not None

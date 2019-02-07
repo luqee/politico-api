@@ -6,7 +6,7 @@ def test_party_creation(client):
     test_utils.register_user(client, 'admin')
     login_res = test_utils.login_user(client, 'admin')
     headers = {
-        'UserId': login_res.get_json()['data'][0]['user_id']
+        'Authorization': 'Bearer {0}'.format(login_res.get_json()['data'][0]['auth_token'])
     }
     response = client.post('api/v1/parties', json=test_utils.PARTIES[0], headers=headers)
     assert response.status_code == 201
@@ -15,7 +15,7 @@ def test_get_party(client):
     test_utils.register_user(client, 'admin')
     login_res = test_utils.login_user(client, 'admin')
     headers = {
-        'UserId': login_res.get_json()['data'][0]['user_id']
+        'Authorization': 'Bearer {0}'.format(login_res.get_json()['data'][0]['auth_token'])
     }
     client.post('api/v1/parties', json=test_utils.PARTIES[0], headers=headers)
     response =client.get('api/v1/parties/1')
