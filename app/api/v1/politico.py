@@ -47,7 +47,9 @@ class Politico(object):
             return 'Invalid credentials'
         elif isinstance(user, models.user.User):
             if user.password == password:
-                return user.id
+                # Generate the access token. This will be used as the authorization header
+                access_token = user.generate_token()
+                return access_token
             else:
                 return 'Invalid credentials'
 
