@@ -69,3 +69,10 @@ class Politico(object):
             return 'Party not found'
         party.name = name
         return party
+    
+    def delete_party(self, party_id):
+        party = self.get_party_by_id(party_id)
+        if party == 'Not found':
+            return 'Party not found'
+        self.registered_parties.remove(party)
+        return 'Party deleted'
