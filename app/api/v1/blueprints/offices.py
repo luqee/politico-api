@@ -68,3 +68,22 @@ def get_offices():
                 'name': office.name
             })
         return jsonify(response), 200
+
+@office_blueprint.route('/offices/<int:office_id>/name', methods=['PATCH'])
+def update_office(office_id):
+    name = request.get_json()['name']
+    office = politico.update_office(office_id, name)
+    if type(office) == Office:
+        response = {
+            'status': 200,
+            'data':[]
+        }
+        response['data'].append({
+            'id': office.id,
+            'name': office.name
+        })
+        return jsonify(response), 200
+    response = {
+        'status': 400,
+        'data':[]
+    }
