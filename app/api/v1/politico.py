@@ -57,5 +57,8 @@ class Politico(object):
         if current_user.user_type == 'admin':
             party.id = len(self.registered_parties) + 1
             self.registered_parties.append(party)
-            return 'Party created'
+            return party
         return 'Not authorised'
+    
+    def get_parties(self):
+        return self.registered_parties

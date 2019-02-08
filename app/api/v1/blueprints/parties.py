@@ -16,18 +16,21 @@ def create_party():
     
     new_party = Party(name=name, hq_address=hq_address, logo_url=logo_url, description=description)
     result = politico.create_party(g.user, new_party)
-    if result == 'Party created':
+    if type(result) == Party:
         response = {
             'status': 201,
-            'data':[{'message': 'Party created successfully.'}]
+            'data':[{
+                'id': result.id,
+                'name': result.name
+            }]
         }
         return jsonify(response), 201
-    elif result == 'Login needed':
+    elif result == 'Not authorised':
         response = {
-            'status': 400,
-            'error': 'You need to login before creating a party'
+            'status': 401,
+            'error': 'You need to be an admin to create a party'
         }
-        return jsonify(response), 400
+        return jsonify(response), 401
 
 @party_blueprint.route('/parties/<int:party_id>', methods=['GET'])
 def get_party(party_id):
@@ -49,3 +52,20 @@ def get_party(party_id):
             'logo_url': party.logo_url
         })
         return jsonify(response), 200
+
+@party_blueprint.route('/parties', methods=['GET'])
+def get_parties():
+    parties = politico.get_parties()
+    if type(parties) == list:
+        response = {
+            'status': 200,
+            'data':[]
+        }
+        for party in parties:
+            response['data'].append({
+                'id': party.id,
+                'name': party.name,
+                'logo_url': party.logo_url
+            })
+        return jsonify(response), 200
+    
