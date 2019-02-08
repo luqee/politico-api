@@ -87,3 +87,20 @@ def update_party(party_id):
         'status': 400,
         'data':[]
     }
+
+@party_blueprint.route('/parties/<int:party_id>', methods=['DELETE'])
+def delete_party(party_id):
+    result = politico.delete_party(party_id)
+    if result == 'Party deleted':
+        response = {
+            'status': 200,
+            'data':[]
+        }
+        response['data'].append({
+            'message': 'Party deleted successfully'
+        })
+        return jsonify(response), 200
+    response = {
+        'status': 400,
+        'data':[]
+    }
