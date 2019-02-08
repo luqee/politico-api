@@ -51,6 +51,23 @@ class Utils(object):
             'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitatio'
         },
     ]
+    OFFICES = [
+        {
+            'name': 'President',
+            'type': 'State',
+            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitatio'
+        },
+        {
+            'name': 'Women Rep',
+            'type': 'Legislative',
+            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitatio'
+        },
+        {
+            'name': 'Chief',
+            'type': 'Local Government',
+            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitatio'
+        },
+    ]
     def register_user(self, client, user_type):
         if user_type == 'admin':
             client.post('api/v1/auth/user/register', json=self.ADMIN)
