@@ -52,3 +52,19 @@ def get_office(office_id):
             'name': office.name
         })
         return jsonify(response), 200
+
+@office_blueprint.route('/offices', methods=['GET'])
+def get_offices():
+    offices = politico.get_offices()
+    if type(offices) == list:
+        response = {
+            'status': 200,
+            'data':[]
+        }
+        for office in offices:
+            response['data'].append({
+                'id': office.id,
+                'type': office.type,
+                'name': office.name
+            })
+        return jsonify(response), 200
