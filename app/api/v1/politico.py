@@ -90,3 +90,6 @@ class Politico(object):
             self.registered_offices.append(office)
             return office
         return 'Not authorised'
+
+    def get_offices(self):
+        return self.registered_offices
