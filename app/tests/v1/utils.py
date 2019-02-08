@@ -98,7 +98,10 @@ class Utils(object):
             return client.post('api/v1/auth/user/login', json=data)
 
     def create_party(self, client, party, headers):
-        client.post('api/v1/party', json=party, headers=headers)
+        client.post('api/v1/parties', json=party, headers=headers)
+    
+    def create_office(self, client, office, headers):
+        client.post('api/v1/offices', json=office, headers=headers)
     
     def create_parties(self, client, headers):
         for party in self.PARTIES:
