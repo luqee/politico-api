@@ -62,3 +62,10 @@ class Politico(object):
     
     def get_parties(self):
         return self.registered_parties
+    
+    def update_party(self, party_id, name):
+        party = self.get_party_by_id(party_id)
+        if party == 'Not found':
+            return 'Party not found'
+        party.name = name
+        return party

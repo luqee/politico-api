@@ -68,4 +68,22 @@ def get_parties():
                 'logo_url': party.logo_url
             })
         return jsonify(response), 200
-    
+
+@party_blueprint.route('/parties/<int:party_id>/name', methods=['PATCH'])
+def update_party(party_id):
+    name = request.get_json()['name']
+    party = politico.update_party(party_id, name)
+    if type(party) == Party:
+        response = {
+            'status': 200,
+            'data':[]
+        }
+        response['data'].append({
+            'id': party.id,
+            'name': party.name
+        })
+        return jsonify(response), 200
+    response = {
+        'status': 400,
+        'data':[]
+    }
