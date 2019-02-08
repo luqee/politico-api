@@ -1,6 +1,7 @@
 from flask import current_app as app
 from datetime import datetime, timedelta
 import jwt
+import bcrypt
 
 class User(object):
     def __init__(self, kwargs):
@@ -9,8 +10,13 @@ class User(object):
         self.username = kwargs.get('username')
         self.email = kwargs.get('email')
         self.phoneNumber = kwargs.get('phone_number')
-        self.password = kwargs.get('password')
+        self.password = bcrypt.hashpw(kwargs.get('password').encode('utf8'), bcrypt.gensalt())
         self.user_type = kwargs.get('user_type')
+
+    def verify_password(self, password):
+        if bcrypt.checkpw(password.encode('utf8') , self.password):
+            return True
+        return False
 
     def generate_token(self):
         """ Generates the access token"""
