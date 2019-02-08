@@ -70,6 +70,7 @@ def get_offices():
         return jsonify(response), 200
 
 @office_blueprint.route('/offices/<int:office_id>/name', methods=['PATCH'])
+@login_required
 def update_office(office_id):
     name = request.get_json()['name']
     office = politico.update_office(office_id, name)
@@ -81,6 +82,24 @@ def update_office(office_id):
         response['data'].append({
             'id': office.id,
             'name': office.name
+        })
+        return jsonify(response), 200
+    response = {
+        'status': 400,
+        'data':[]
+    }
+
+@office_blueprint.route('/offices/<int:office_id>', methods=['DELETE'])
+@login_required
+def delete_party(office_id):
+    result = politico.delete_office(office_id)
+    if result == 'Office deleted':
+        response = {
+            'status': 200,
+            'data':[]
+        }
+        response['data'].append({
+            'message': 'Office deleted successfully'
         })
         return jsonify(response), 200
     response = {

@@ -70,6 +70,7 @@ def get_parties():
         return jsonify(response), 200
 
 @party_blueprint.route('/parties/<int:party_id>/name', methods=['PATCH'])
+@login_required
 def update_party(party_id):
     name = request.get_json()['name']
     party = politico.update_party(party_id, name)
@@ -89,6 +90,7 @@ def update_party(party_id):
     }
 
 @party_blueprint.route('/parties/<int:party_id>', methods=['DELETE'])
+@login_required
 def delete_party(party_id):
     result = politico.delete_party(party_id)
     if result == 'Party deleted':
