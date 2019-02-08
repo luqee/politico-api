@@ -25,6 +25,12 @@ class Politico(object):
                 return party
         return 'Not found'
 
+    def get_office_by_id(self, office_id):
+        for office in self.registered_offices:
+            if office.id == office_id:
+                return office
+        return 'Not found'
+
     def register_user(self, user_data):
         # check if user exists
         if self.get_user(user_data['email']) == 'Not found':
