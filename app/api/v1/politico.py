@@ -100,3 +100,10 @@ class Politico(object):
             return 'Office not found'
         office.name = name
         return office
+    
+    def delete_office(self, office_id):
+        office = self.get_office_by_id(office_id)
+        if office == 'Not found':
+            return 'Office not found'
+        self.registered_offices.remove(office)
+        return 'Office deleted'
