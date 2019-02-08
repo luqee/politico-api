@@ -93,3 +93,10 @@ class Politico(object):
 
     def get_offices(self):
         return self.registered_offices
+    
+    def update_office(self, office_id, name):
+        office = self.get_office_by_id(office_id)
+        if office == 'Not found':
+            return 'Office not found'
+        office.name = name
+        return office
