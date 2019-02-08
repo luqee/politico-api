@@ -12,3 +12,15 @@ def test_create_office(client):
     json_data = response.get_json()
     assert response.status_code == 201
     assert type(json_data['data']) == list
+
+def test_get_office(client):
+    test_utils.register_user(client, 'admin')
+    login_res = test_utils.login_user(client, 'admin')
+    headers = {
+        'Authorization': 'Bearer {0}'.format(login_res.get_json()['data'][0]['auth_token'])
+    }
+    test_utils.create_office(client, test_utils.OFFICES[1], headers)
+    response =client.get('api/v1/offices/1')
+    json_data = response.get_json()
+    assert response.status_code == 200
+    assert type(json_data['data']) == list

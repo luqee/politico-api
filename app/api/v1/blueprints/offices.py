@@ -31,3 +31,24 @@ def create_office():
             'error': 'You need to be an admin to create an office'
         }
         return jsonify(response), 401
+
+@office_blueprint.route('/offices/<int:office_id>', methods=['GET'])
+def get_office(office_id):
+    office = politico.get_office_by_id(office_id)
+    if office == 'Not found':
+        response = {
+            'status': 404,
+            'error': 'Party not found'
+        }        
+        return jsonify(response), 404
+    if type(office) == Office:
+        response = {
+            'status': 200,
+            'data':[]
+        }
+        response['data'].append({
+            'id': office.id,
+            'type': office.type,
+            'name': office.name
+        })
+        return jsonify(response), 200
