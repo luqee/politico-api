@@ -59,3 +59,6 @@ class Politico(object):
             self.registered_parties.append(party)
             return party
         return 'Not authorised'
+    
+    def get_parties(self):
+        return self.registered_parties
