@@ -5,6 +5,7 @@ class Politico(object):
     def __init__(self):
         self.registered_users = []
         self.registered_parties = []
+        self.registered_offices = []
     
     def get_user(self, email):
         for user in self.registered_users:
@@ -76,3 +77,10 @@ class Politico(object):
             return 'Party not found'
         self.registered_parties.remove(party)
         return 'Party deleted'
+    
+    def create_office(self, current_user, office):
+        if current_user.user_type == 'admin':
+            office.id = len(self.registered_offices) + 1
+            self.registered_offices.append(office)
+            return office
+        return 'Not authorised'
