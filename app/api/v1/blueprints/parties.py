@@ -36,10 +36,10 @@ def create_party():
         return jsonify(response), 403
     elif result == 'Party exists':
         response = {
-            'status': 406,
+            'status': 409,
             'error': 'Party exists'
         }
-        return jsonify(response), 406
+        return jsonify(response), 409
 
 @party_blueprint.route('/parties/<int:party_id>', methods=['GET'])
 def get_party(party_id):

@@ -36,10 +36,10 @@ def create_office():
         return jsonify(response), 403
     elif result == 'Office exists':
         response = {
-            'status': 406,
+            'status': 409,
             'error': 'Office exists'
         }
-        return jsonify(response), 406
+        return jsonify(response), 409
 
 @office_blueprint.route('/offices/<int:office_id>', methods=['GET'])
 def get_office(office_id):
