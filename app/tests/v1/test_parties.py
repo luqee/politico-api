@@ -60,8 +60,9 @@ def test_delete_party(client):
         'Authorization': 'Bearer {0}'.format(login_res.get_json()['data'][0]['auth_token'])
     }
     client.post('api/v1/parties', json=test_utils.PARTIES[0], headers=headers)
-    response =client.delete('api/v1/parties/1', headers=headers)
-    json_data = response.get_json()
-    assert response.status_code == 200
+    req_response =client.delete('api/v1/parties/1', headers=headers)
+    print(req_response)
+    json_data = req_response.get_json()
+    assert req_response.status_code == 202
     assert type(json_data['data']) == list
     assert json_data['data'][0]['message'] == 'Party deleted successfully'

@@ -108,13 +108,13 @@ def delete_party(office_id):
     result = politico.delete_office(office_id)
     if result == 'Office deleted':
         response = {
-            'status': 200,
+            'status': 202,
             'data':[]
         }
         response['data'].append({
             'message': 'Office deleted successfully'
         })
-        return jsonify(response), 200
+        return jsonify(response), 202
     elif party == 'Party not found':
         response = {
             'status': 404,
