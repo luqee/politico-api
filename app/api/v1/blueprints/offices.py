@@ -28,7 +28,7 @@ def create_office():
             }]
         }
         return jsonify(response), 201
-    elif result == 'Not authorised':
+    elif result == 'Forbiden':
         response = {
             'status': 403,
             'error': 'You need to be an admin to create an office'
