@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify, g
 from app.api.v1.models.party import Party
 from app import politico
 from .decorators import login_required
+from app.api.v1.blueprints.validator import Validator
 
 party_blueprint = Blueprint('parties', __name__, url_prefix='/api/v1')
 
@@ -9,13 +10,15 @@ party_blueprint = Blueprint('parties', __name__, url_prefix='/api/v1')
 @login_required
 def create_party():
     data = request.get_json()
-    name = data['name']
-    hq_address = data['hq_address']
-    logo_url = data['logo_url']
-    description = data['description']
-    
-    new_party = Party(name=name, hq_address=hq_address, logo_url=logo_url, description=description)
-    result = politico.create_party(g.user, new_party)
+    party_data = {
+        'name': data['name'],
+        'hq_address': data['hq_address'],
+        'logo_url': data['logo_url'],
+        'description': data['description']    
+    }
+    if Validator.validate_party(party_data):
+        result = politico.create_party(g.user, party_data)
+        # new_party = Party(name=name, hq_address=hq_address, logo_url=logo_url, description=description)
     if type(result) == Party:
         response = {
             'status': 201,

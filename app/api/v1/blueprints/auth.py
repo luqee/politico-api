@@ -38,9 +38,13 @@ def register():
 def login():
     """ This method logs in a user into the application."""
     data = request.get_json()
-    email = data['email']
-    password = data['password']
-    result = politico.login_user(email, password)
+    
+    user_data = {
+        'email': data['email'],
+        'password': data['password']
+    }
+    if Validator.validate_user(user_data):
+        result = politico.login_user(user_data)
     if result == 'Invalid credentials':
         # notify the user that there was an error.
         response = {

@@ -48,23 +48,24 @@ class Politico(object):
         else:
             return "User already exists"
     
-    def login_user(self, email, password):
-        user = self.get_user(email)
+    def login_user(self, user_data):
+        user = self.get_user(user_data['email'])
         if user == 'Not found':
             return 'Invalid credentials'
         elif isinstance(user, models.user.User):
-            if user.verify_password(password):
+            if user.verify_password(user_data['password']):
                 # Generate the access token. This will be used as the authorization header
                 access_token = user.generate_token()
                 return access_token
             else:
                 return 'Invalid credentials'
 
-    def create_party(self, current_user, party):
-        if current_user.user_type == 'admin':
-            party.id = len(self.registered_parties) + 1
-            self.registered_parties.append(party)
-            return party
+    def create_party(self, current_user, party_data):
+        if current_user.is_admin:
+            new_party = models.party.Party(party_data)
+            new_party.id = len(self.registered_parties) + 1
+            self.registered_parties.append(new_party)
+            return new_party
         return 'Not authorised'
     
     def get_parties(self):
@@ -84,11 +85,12 @@ class Politico(object):
         self.registered_parties.remove(party)
         return 'Party deleted'
     
-    def create_office(self, current_user, office):
-        if current_user.user_type == 'admin':
-            office.id = len(self.registered_offices) + 1
-            self.registered_offices.append(office)
-            return office
+    def create_office(self, current_user, office_data):
+        if current_user.is_admin == 'True':
+            new_office = models.office.Office(office_data)
+            new_office.id = len(self.registered_offices) + 1
+            self.registered_offices.append(new_office)
+            return new_office
         return 'Not authorised'
 
     def get_offices(self):

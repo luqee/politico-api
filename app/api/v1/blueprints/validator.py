@@ -22,8 +22,42 @@ class Validator(object):
                     abort(422, "The {} provided is too short".format(key))
                 elif len(value) > 15:
                     abort(422, "The {} provided is too long".format(key))
+            
         return True
-    
+
+    @staticmethod
+    def validate_party(party_object):
+        for key, value in party_object.items():
+            # ensure keys have values
+            if not value:
+                abort(422, "{} is lacking. It is a required field".format(key))
+            # validate length
+            if key == "name" or key == "hq_address":
+                if len(value) < 3:
+                    abort(422, "The {} provided is too short".format(key))
+                elif len(value) > 15:
+                    abort(422, "The {} provided is too long".format(key))
+        return True
+
+    @staticmethod
+    def validate_office(office_object):
+        office_types = ['federal', 'legislative', 'state', 'local government']
+        for key, value in office_object.items():
+            # ensure keys have values
+            if not value:
+                abort(422, "{} is lacking. It is a required field".format(key))
+            # validate length
+            if key == "name":
+                if len(value) < 3:
+                    abort(422, "The {} provided is too short".format(key))
+                elif len(value) > 15:
+                    abort(422, "The {} provided is too long".format(key))
+            if key == 'office_type':
+                if value not in office_types:
+                    abort(422, "The {} provided is invalid".format(key))
+
+        return True
+
     @staticmethod
     def check_email(email):
         email_pattern = r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)'
