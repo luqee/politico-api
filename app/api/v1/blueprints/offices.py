@@ -34,6 +34,12 @@ def create_office():
             'error': 'You need to be an admin to create an office'
         }
         return jsonify(response), 401
+    elif result == 'Office exists':
+        response = {
+            'status': 401,
+            'error': 'Office exists'
+        }
+        return jsonify(response), 401
 
 @office_blueprint.route('/offices/<int:office_id>', methods=['GET'])
 def get_office(office_id):

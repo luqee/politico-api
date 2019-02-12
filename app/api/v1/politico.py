@@ -63,6 +63,9 @@ class Politico(object):
     def create_party(self, current_user, party_data):
         if current_user.is_admin:
             new_party = models.party.Party(party_data)
+            for party in self.registered_parties:
+                if party.name == new_party.name:
+                    return 'Party exists'
             new_party.id = len(self.registered_parties) + 1
             self.registered_parties.append(new_party)
             return new_party
@@ -88,6 +91,9 @@ class Politico(object):
     def create_office(self, current_user, office_data):
         if current_user.is_admin == 'True':
             new_office = models.office.Office(office_data)
+            for office in self.registered_offices:
+                if office.name == new_office.name:
+                    return 'Office exists'
             new_office.id = len(self.registered_offices) + 1
             self.registered_offices.append(new_office)
             return new_office
