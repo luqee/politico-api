@@ -1,5 +1,5 @@
 class  Office(object):
-    def __init__(self, name, office_type, description):
-        self.name = name
-        self.type = office_type
-        self.description = description
+    def __init__(self, office_data):
+        self.name = office_data['name']
+        self.type = office_data['office_type']
+        self.description = office_data['description']

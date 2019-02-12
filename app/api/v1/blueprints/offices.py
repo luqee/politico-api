@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify, g
 from app.api.v1.models.office import Office
 from app import politico
 from .decorators import login_required
+from app.api.v1.blueprints.validator import Validator
 
 office_blueprint = Blueprint('offices', __name__, url_prefix='/api/v1')
 
@@ -9,12 +10,14 @@ office_blueprint = Blueprint('offices', __name__, url_prefix='/api/v1')
 @login_required
 def create_office():
     data = request.get_json()
-    name = data['name']
-    office_type = data['type']
-    description = data['description']
     
-    new_office = Office(name, office_type, description)
-    result = politico.create_office(g.user, new_office)
+    office_data = {
+        'name': data['name'],
+        'office_type': data['type'],
+        'description': data['description']
+    }
+    if Validator.validate_party(office_data):
+        result = politico.create_office(g.user, office_data)
     if type(result) == Office:
         response = {
             'status': 201,
