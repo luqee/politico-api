@@ -35,13 +35,10 @@ class User(object):
                 app.config.get('SECRET_KEY'),
                 algorithm='HS256'
             )
-            print(jwt_string)
-            print(type(jwt_string))
             return jwt_string
 
         except Exception as e:
             # return an error in string format if an exception occurs
-            print('Exception occured')
             return str(e)
 
     @staticmethod

@@ -69,7 +69,7 @@ class Politico(object):
             new_party.id = len(self.registered_parties) + 1
             self.registered_parties.append(new_party)
             return new_party
-        return 'Not authorised'
+        return 'Forbiden'
     
     def get_parties(self):
         return self.registered_parties
@@ -97,7 +97,7 @@ class Politico(object):
             new_office.id = len(self.registered_offices) + 1
             self.registered_offices.append(new_office)
             return new_office
-        return 'Not authorised'
+        return 'Forbiden'
 
     def get_offices(self):
         return self.registered_offices

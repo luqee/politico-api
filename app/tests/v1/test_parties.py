@@ -61,7 +61,6 @@ def test_delete_party(client):
     }
     client.post('api/v1/parties', json=test_utils.PARTIES[0], headers=headers)
     req_response =client.delete('api/v1/parties/1', headers=headers)
-    print(req_response)
     json_data = req_response.get_json()
     assert req_response.status_code == 202
     assert type(json_data['data']) == list

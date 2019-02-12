@@ -61,4 +61,4 @@ def login():
         'message': 'Successfull log in',
         'auth_token': result.decode()
     })
-    return jsonify(response_data), 200        
+    return jsonify(response_data), 200

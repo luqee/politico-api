@@ -12,7 +12,6 @@ def login_required(f):
         if access_token:
             # Attempt to decode the token and get the User ID
             user_id = user.User.decode_token(access_token)
-            print(user_id)
             if not isinstance(user_id, str):
                 current_user = politico.get_user_by_id(user_id)
                 g.user = current_user
