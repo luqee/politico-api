@@ -34,12 +34,6 @@ def create_party():
             'error': 'You need to be an admin to create a party'
         }
         return jsonify(response), 401
-    elif result == 'Party exists':
-        response = {
-            'status': 401,
-            'error': 'Party exists'
-        }
-        return jsonify(response), 401
 
 @party_blueprint.route('/parties/<int:party_id>', methods=['GET'])
 def get_party(party_id):
