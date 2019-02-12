@@ -35,9 +35,9 @@ class Politico(object):
         # check if user exists
         if self.get_user(user_data['email']) == 'Not found':
             # Add user as they don't exist
-            if user_data['user_type'] == 'admin':
+            if user_data['is_admin'] == 'True':
                 new_user = models.user.Admin(user_data)
-            elif user_data['user_type'] == 'politician':
+            elif user_data['is_politician'] == 'True':
                 new_user = models.user.Politician(user_data)
             else:
                 new_user = models.user.User(user_data)

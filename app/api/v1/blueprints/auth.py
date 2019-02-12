@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from app.api.v1.models import user
 from app import politico
+from app.api.v1.blueprints.validator import Validator
 
 auth_blueprint = Blueprint('auth', __name__, url_prefix='/api/v1/auth')
 
@@ -8,7 +9,17 @@ auth_blueprint = Blueprint('auth', __name__, url_prefix='/api/v1/auth')
 def register():
     """ This method registers a user to the application."""
     data = request.get_json()
-    result = politico.register_user(data)
+    user_data = {
+        'firstname': data['firstname'],
+        'lastname': data['lastname'],
+        'email': data['email'],
+        'password': data['password'],
+        'othername': data['othername'],
+        'phone_number': data['phone_number'],
+        'is_admin': data['is_admin'],
+    }
+    if Validator.validate_user(user_data):
+        result = politico.register_user(data)
     if result == 'User added':
         # return a response notifying the user that they registered successfully
         response = {

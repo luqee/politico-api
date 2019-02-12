@@ -11,7 +11,8 @@ class User(object):
         self.email = kwargs.get('email')
         self.phoneNumber = kwargs.get('phone_number')
         self.password = bcrypt.hashpw(kwargs.get('password').encode('utf8'), bcrypt.gensalt())
-        self.user_type = kwargs.get('user_type')
+        self.is_admin = kwargs.get('is_admin')
+        self.is_politician = kwargs.get('is_politician')
 
     def verify_password(self, password):
         if bcrypt.checkpw(password.encode('utf8') , self.password):
