@@ -8,22 +8,24 @@ class Utils(object):
         'lastname': 'one',
         'othername': 'quack',
         'email': 'politician@app.com',
-        'phone_number': '+254726094972',
+        'phone_number': '254726094972',
         'passportUrl' : 'some/url/pass.jpg',
         'address': '123 fith street',
         'password': 'password',
-        'user_type': 'admin'
+        'is_admin': 'True',
+        'is_politician': 'False'
     }
     POLITICIAN = {
         'firstname': 'Donald',
         'lastname': 'Duck',
         'othername': 'quack',
         'email': 'admin@app.com',
-        'phone_number': '+254726094972',
+        'phone_number': '254726094972',
         'passportUrl' : 'some/url/pass.jpg',
         'home_county': 'Rongai',
         'password': 'password',
-        'user_type': 'politician'
+        'is_admin': 'False',
+        'is_politician': 'True'
     }
 
     USER = {
@@ -31,10 +33,11 @@ class Utils(object):
         'lastname': 'one',
         'othername': 'quack',
         'email': 'user@app.com',
-        'phone_number': '+254726094972',
+        'phone_number': '254726094972',
         'passportUrl' : 'some/url/pass.jpg',
         'password': 'password',
-        'user_type': 'user'
+        'is_admin': 'False',
+        'is_politician': 'False'
     }
 
     PARTIES = [
