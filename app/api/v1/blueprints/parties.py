@@ -11,10 +11,10 @@ party_blueprint = Blueprint('parties', __name__, url_prefix='/api/v1')
 def create_party():
     data = request.get_json()
     party_data = {
-        'name': data['name'],
-        'hq_address': data['hq_address'],
-        'logo_url': data['logo_url'],
-        'description': data['description']    
+        'name': data.get('name'),
+        'hq_address': data.get('hq_address'),
+        'logo_url': data.get('logo_url'),
+        'description': data.get('description')
     }
     if Validator.validate_party(party_data):
         result = politico.create_party(g.user, party_data)

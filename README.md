@@ -9,8 +9,8 @@ Politico API is the back end to the Politico platform that enables citizens to g
 
 | Http method  | EndPoint | Description |
 | ------------- | ------------- |---------|
-| POST  | /api/v1/auth/register  | Register a User |
-| POST  | /api/v1/auth/login  | Login a User |
+| POST  | /api/v1/auth/user/register  | Register a User |
+| POST  | /api/v1/auth/user/login  | Login a User |
 | POST  | api/v1/parties  | Create a political Party |
 | GET | api/v1/parties/<int:party-id> | Get a single party |
 | GET | api/v1/parties | Get all Parties |
