@@ -10,13 +10,13 @@ def register():
     """ This method registers a user to the application."""
     data = request.get_json()
     user_data = {
-        'firstname': data['firstname'],
-        'lastname': data['lastname'],
-        'email': data['email'],
-        'password': data['password'],
-        'othername': data['othername'],
-        'phone_number': data['phone_number'],
-        'is_admin': data['is_admin'],
+        'firstname': data.get('firstname'),
+        'lastname': data.get('lastname'),
+        'email': data.get('email'),
+        'password': data.get('password'),
+        'othername': data.get('othername'),
+        'phone_number': data.get('phone_number'),
+        'is_admin': data.get('is_admin'),
     }
     if Validator.validate_user(user_data):
         result = politico.register_user(data)
@@ -40,8 +40,8 @@ def login():
     data = request.get_json()
     
     user_data = {
-        'email': data['email'],
-        'password': data['password']
+        'email': data.get('email'),
+        'password': data.get('password')
     }
     if Validator.validate_user(user_data):
         result = politico.login_user(user_data)

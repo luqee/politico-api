@@ -12,9 +12,9 @@ def create_office():
     data = request.get_json()
     
     office_data = {
-        'name': data['name'],
-        'office_type': data['type'],
-        'description': data['description']
+        'name': data.get('name'),
+        'office_type': data.get('type'),
+        'description': data.get('description')
     }
     if Validator.validate_party(office_data):
         result = politico.create_office(g.user, office_data)
