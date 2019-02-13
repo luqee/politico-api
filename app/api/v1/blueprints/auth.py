@@ -9,6 +9,12 @@ auth_blueprint = Blueprint('auth', __name__, url_prefix='/api/v1/auth')
 def register():
     """ This method registers a user to the application."""
     data = request.get_json()
+    if not data:
+        response = {
+            'status': 400,
+            'error': 'Request is empty'
+        }
+        return jsonify(response), 400
     user_data = {
         'firstname': data.get('firstname'),
         'lastname': data.get('lastname'),
@@ -38,7 +44,12 @@ def register():
 def login():
     """ This method logs in a user into the application."""
     data = request.get_json()
-    
+    if not data:
+        response = {
+            'status': 400,
+            'error': 'Request is empty'
+        }
+        return jsonify(response), 400
     user_data = {
         'email': data.get('email'),
         'password': data.get('password')

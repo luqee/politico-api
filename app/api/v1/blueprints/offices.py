@@ -10,7 +10,13 @@ office_blueprint = Blueprint('offices', __name__, url_prefix='/api/v1')
 @login_required
 def create_office():
     data = request.get_json()
-    
+    if not data:
+        response = {
+            'status': 400,
+            'error': 'Request is empty'
+        }
+        return jsonify(response), 400
+        
     office_data = {
         'name': data.get('name'),
         'office_type': data.get('type'),
