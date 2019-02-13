@@ -12,7 +12,7 @@ def register():
     if not data:
         response = {
             'status': 400,
-            'error': 'Request is empty'
+            'error': 'Request data can not be empty'
         }
         return jsonify(response), 400
     user_data = {
