@@ -9,19 +9,19 @@ class Validator(object):
         for key, value in user_object.items():
             # ensure keys have values
             if not value:
-                abort(422, 'Please provide your {}'.format(key))
+                abort(400, 'Please provide your {}'.format(key))
             if key == 'email':
                 if Validator.check_email(value) == 'Invalid email':
-                    abort(422, '{} is invalid'.format(key))
+                    abort(400, '{} is invalid'.format(key))
             if key == 'phone_number':
                 if Validator.check_number(value) == 'Invalid number':
-                    abort(422, '{} is invalid'.format(key))
+                    abort(400, '{} is invalid'.format(key))
             # validate length
             if key == "firstname" or key == "lastname" or key == "othername":
                 if len(value) < 3:
-                    abort(422, "The {} provided is too short".format(key))
+                    abort(400, "The {} provided is too short".format(key))
                 elif len(value) > 15:
-                    abort(422, "The {} provided is too long".format(key))
+                    abort(400, "The {} provided is too long".format(key))
             
         return True
 
@@ -30,13 +30,13 @@ class Validator(object):
         for key, value in party_object.items():
             # ensure keys have values
             if not value:
-                abort(422, 'Please provide the {}'.format(key))
+                abort(400, 'Please provide the {}'.format(key))
             # validate length
             if key == "name" or key == "hq_address":
                 if len(value) < 3:
-                    abort(422, "The {} provided is too short".format(key))
+                    abort(400, "The {} provided is too short".format(key))
                 elif len(value) > 15:
-                    abort(422, "The {} provided is too long".format(key))
+                    abort(400, "The {} provided is too long".format(key))
         return True
 
     @staticmethod
@@ -45,16 +45,16 @@ class Validator(object):
         for key, value in office_object.items():
             # ensure keys have values
             if not value:
-                abort(422, 'Please provide the {}'.format(key))
+                abort(400, 'Please provide the {}'.format(key))
             # validate length
             if key == "name":
                 if len(value) < 3:
-                    abort(422, "The {} provided is too short".format(key))
+                    abort(400, "The {} provided is too short".format(key))
                 elif len(value) > 15:
-                    abort(422, "The {} provided is too long".format(key))
+                    abort(400, "The {} provided is too long".format(key))
             if key == 'office_type':
                 if value not in office_types:
-                    abort(422, "The {} provided is invalid".format(key))
+                    abort(400, "The {} provided is invalid".format(key))
 
         return True
 
