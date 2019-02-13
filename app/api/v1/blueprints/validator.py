@@ -1,5 +1,6 @@
 import re
-from flask import abort
+from flask import jsonify, make_response
+
 class Validator(object):
     def __init__():
         pass
@@ -9,19 +10,39 @@ class Validator(object):
         for key, value in user_object.items():
             # ensure keys have values
             if not value:
-                abort(400, 'Please provide your {}'.format(key))
+                response = {
+                    'status': 400,
+                    'error': 'Please provide your {}'.format(key)
+                }
+                return jsonify(response), 400
             if key == 'email':
                 if Validator.check_email(value) == 'Invalid email':
-                    abort(400, '{} is invalid'.format(key))
+                    response = {
+                        'status': 400,
+                        'error': '{} is invalid'.format(key)
+                    }
+                    return jsonify(response), 400
             if key == 'phone_number':
                 if Validator.check_number(value) == 'Invalid number':
-                    abort(400, '{} is invalid'.format(key))
+                    response = {
+                        'status': 400,
+                        'error': '{} is invalid'.format(key)
+                    }
+                    return jsonify(response), 400
             # validate length
             if key == "firstname" or key == "lastname" or key == "othername":
                 if len(value) < 3:
-                    abort(400, "The {} provided is too short".format(key))
+                    response = {
+                        'status': 400,
+                        'error': "The {} provided is too short".format(key)
+                    }
+                    return jsonify(response), 400
                 elif len(value) > 15:
-                    abort(400, "The {} provided is too long".format(key))
+                    response = {
+                        'status': 400,
+                        'error': "The {} provided is too long".format(key)
+                    }
+                    return jsonify(response), 400
             
         return True
 
@@ -30,13 +51,25 @@ class Validator(object):
         for key, value in party_object.items():
             # ensure keys have values
             if not value:
-                abort(400, 'Please provide the {}'.format(key))
+                response = {
+                    'status': 400,
+                    'error': 'Please provide the {}'.format(key)
+                }
+                return jsonify(response), 400
             # validate length
             if key == "name" or key == "hq_address":
                 if len(value) < 3:
-                    abort(400, "The {} provided is too short".format(key))
+                    response = {
+                        'status': 400,
+                        'error': "The {} provided is too short".format(key)
+                    }
+                    return jsonify(response), 400
                 elif len(value) > 15:
-                    abort(400, "The {} provided is too long".format(key))
+                    response = {
+                        'status': 400,
+                        'error': "The {} provided is too long".format(key)
+                    }
+                    return jsonify(response), 400
         return True
 
     @staticmethod
@@ -45,16 +78,32 @@ class Validator(object):
         for key, value in office_object.items():
             # ensure keys have values
             if not value:
-                abort(400, 'Please provide the {}'.format(key))
+                response = {
+                    'status': 400,
+                    'error': 'Please provide the {}'.format(key)
+                }
+                return jsonify(response), 400
             # validate length
             if key == "name":
                 if len(value) < 3:
-                    abort(400, "The {} provided is too short".format(key))
+                    response = {
+                        'status': 400,
+                        'error': "The {} provided is too short".format(key)
+                    }
+                    return jsonify(response), 400
                 elif len(value) > 15:
-                    abort(400, "The {} provided is too long".format(key))
+                    response = {
+                        'status': 400,
+                        'error': "The {} provided is too long".format(key)
+                    }
+                    return jsonify(response), 400
             if key == 'office_type':
                 if value not in office_types:
-                    abort(400, "The {} provided is invalid".format(key))
+                    response = {
+                        'status': 400,
+                        'error': "The {} provided is invalid".format(key)
+                    }
+                    return jsonify(response), 400
 
         return True
 
