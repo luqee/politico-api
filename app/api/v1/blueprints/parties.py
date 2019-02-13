@@ -28,12 +28,18 @@ def create_party():
             }]
         }
         return jsonify(response), 201
-    elif result == 'Not authorised':
+    elif result == 'Forbiden':
         response = {
-            'status': 401,
+            'status': 403,
             'error': 'You need to be an admin to create a party'
         }
-        return jsonify(response), 401
+        return jsonify(response), 403
+    elif result == 'Party exists':
+        response = {
+            'status': 409,
+            'error': 'Party exists'
+        }
+        return jsonify(response), 409
 
 @party_blueprint.route('/parties/<int:party_id>', methods=['GET'])
 def get_party(party_id):
@@ -87,10 +93,14 @@ def update_party(party_id):
             'name': party.name
         })
         return jsonify(response), 200
-    response = {
-        'status': 400,
-        'data':[]
-    }
+    elif party == 'Party not found':
+        response = {
+            'status': 404,
+            'data':[{
+                'error': 'Party not found'
+            }]
+        }
+        return jsonify(response, 404)
 
 @party_blueprint.route('/parties/<int:party_id>', methods=['DELETE'])
 @login_required
@@ -98,14 +108,18 @@ def delete_party(party_id):
     result = politico.delete_party(party_id)
     if result == 'Party deleted':
         response = {
-            'status': 200,
+            'status': 202,
             'data':[]
         }
         response['data'].append({
             'message': 'Party deleted successfully'
         })
-        return jsonify(response), 200
-    response = {
-        'status': 400,
-        'data':[]
-    }
+        return jsonify(response), 202
+    elif party == 'Party not found':
+        response = {
+            'status': 404,
+            'data':[{
+                'error': 'Party not found'
+            }]
+        }
+        return jsonify(response, 404)

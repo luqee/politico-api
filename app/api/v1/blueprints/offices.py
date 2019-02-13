@@ -28,12 +28,18 @@ def create_office():
             }]
         }
         return jsonify(response), 201
-    elif result == 'Not authorised':
+    elif result == 'Forbiden':
         response = {
-            'status': 401,
+            'status': 403,
             'error': 'You need to be an admin to create an office'
         }
-        return jsonify(response), 401
+        return jsonify(response), 403
+    elif result == 'Office exists':
+        response = {
+            'status': 409,
+            'error': 'Office exists'
+        }
+        return jsonify(response), 409
 
 @office_blueprint.route('/offices/<int:office_id>', methods=['GET'])
 def get_office(office_id):
@@ -87,10 +93,14 @@ def update_office(office_id):
             'name': office.name
         })
         return jsonify(response), 200
-    response = {
-        'status': 400,
-        'data':[]
-    }
+    elif office == 'Office not found':
+        response = {
+            'status': 404,
+            'data':[{
+                'error': 'Office not found'
+            }]
+        }
+        return jsonify(response, 404)
 
 @office_blueprint.route('/offices/<int:office_id>', methods=['DELETE'])
 @login_required
@@ -98,14 +108,18 @@ def delete_party(office_id):
     result = politico.delete_office(office_id)
     if result == 'Office deleted':
         response = {
-            'status': 200,
+            'status': 202,
             'data':[]
         }
         response['data'].append({
             'message': 'Office deleted successfully'
         })
-        return jsonify(response), 200
-    response = {
-        'status': 400,
-        'data':[]
-    }
+        return jsonify(response), 202
+    elif party == 'Party not found':
+        response = {
+            'status': 404,
+            'data':[{
+                'error': 'Party not found'
+            }]
+        }
+        return jsonify(response, 404)
