@@ -9,7 +9,7 @@ class Validator(object):
         for key, value in user_object.items():
             # ensure keys have values
             if not value:
-                abort(422, "{} is lacking. It is a required field".format(key))
+                abort(422, 'Please provide your {}'.format(key))
             if key == 'email':
                 if Validator.check_email(value) == 'Invalid email':
                     abort(422, '{} is invalid'.format(key))
@@ -17,7 +17,7 @@ class Validator(object):
                 if Validator.check_number(value) == 'Invalid number':
                     abort(422, '{} is invalid'.format(key))
             # validate length
-            if key == "username" or key == "firstname" or key == "lastname" or key == "username":
+            if key == "firstname" or key == "lastname" or key == "othername":
                 if len(value) < 3:
                     abort(422, "The {} provided is too short".format(key))
                 elif len(value) > 15:
@@ -30,7 +30,7 @@ class Validator(object):
         for key, value in party_object.items():
             # ensure keys have values
             if not value:
-                abort(422, "{} is lacking. It is a required field".format(key))
+                abort(422, 'Please provide the {}'.format(key))
             # validate length
             if key == "name" or key == "hq_address":
                 if len(value) < 3:
@@ -45,7 +45,7 @@ class Validator(object):
         for key, value in office_object.items():
             # ensure keys have values
             if not value:
-                abort(422, "{} is lacking. It is a required field".format(key))
+                abort(422, 'Please provide the {}'.format(key))
             # validate length
             if key == "name":
                 if len(value) < 3:

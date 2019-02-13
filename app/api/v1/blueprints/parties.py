@@ -10,6 +10,12 @@ party_blueprint = Blueprint('parties', __name__, url_prefix='/api/v1')
 @login_required
 def create_party():
     data = request.get_json()
+    if not data:
+        response = {
+            'status': 400,
+            'error': 'Provide name, hq_address, logo_url and description as json.'
+        }
+        return jsonify(response), 400
     party_data = {
         'name': data.get('name'),
         'hq_address': data.get('hq_address'),
