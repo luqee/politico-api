@@ -13,7 +13,7 @@ def create_office():
     if not data:
         response = {
             'status': 400,
-            'error': 'Request data can not be empty'
+            'error': 'Provide name, office_type, and description as json'
         }
         return jsonify(response), 400
         

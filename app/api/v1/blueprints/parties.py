@@ -13,7 +13,7 @@ def create_party():
     if not data:
         response = {
             'status': 400,
-            'error': 'Request data can not be empty'
+            'error': 'Provide name, hq_address, logo_url and description as json.'
         }
         return jsonify(response), 400
     party_data = {

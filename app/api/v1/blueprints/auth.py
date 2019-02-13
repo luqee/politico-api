@@ -12,7 +12,7 @@ def register():
     if not data:
         response = {
             'status': 400,
-            'error': 'Request data can not be empty'
+            'error': 'Provide: firstname, lastname, email, othername, phone_number, and password as json.'
         }
         return jsonify(response), 400
     user_data = {
@@ -47,7 +47,7 @@ def login():
     if not data:
         response = {
             'status': 400,
-            'error': 'Request is empty'
+            'error': 'Provide email and password as json.'
         }
         return jsonify(response), 400
     user_data = {
