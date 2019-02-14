@@ -64,7 +64,7 @@ def get_office(office_id):
     if office == 'Not found':
         response = {
             'status': 404,
-            'error': 'Party not found'
+            'error': 'Office not found'
         }        
         return jsonify(response), 404
     if type(office) == Office:
@@ -121,7 +121,7 @@ def update_office(office_id):
 
 @office_blueprint.route('/offices/<int:office_id>', methods=['DELETE'])
 @login_required
-def delete_party(office_id):
+def delete_office(office_id):
     result = politico.delete_office(office_id)
     if result == 'Office deleted':
         response = {
@@ -132,11 +132,11 @@ def delete_party(office_id):
             'message': 'Office deleted successfully'
         })
         return jsonify(response), 202
-    elif party == 'Party not found':
+    elif result == 'Office not found':
         response = {
             'status': 404,
             'data':[{
-                'error': 'Party not found'
+                'error': 'Office not found'
             }]
         }
         return jsonify(response, 404)

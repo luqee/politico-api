@@ -86,7 +86,6 @@ class Validator(object):
 
     @staticmethod
     def validate_office(office_object):
-        print(office_object.keys())
         office_types = ['federal', 'legislative', 'state', 'local government']
         for key, value in office_object.items():
             # ensure keys have values
@@ -117,8 +116,7 @@ class Validator(object):
                     }
                     return response
             if key == 'office_type':
-                print(value)
-                if value not in office_types:
+                if value.lower() not in office_types:
                     response = {
                         'status': 400,
                         'error': "The {} provided is invalid".format(key)
