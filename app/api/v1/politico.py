@@ -34,6 +34,9 @@ class Politico(object):
     def register_user(self, user_data):
         # check if user exists
         if self.get_user(user_data['email']) == 'Not found':
+            # check if othername is taken
+            if user_data['othername'] in [user.username for user in self.registered_users]:
+                return 'Other name taken'
             # Add user as they don't exist
             if user_data['is_admin'] == 'True':
                 new_user = models.user.Admin(user_data)
