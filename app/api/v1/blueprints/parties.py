@@ -112,12 +112,9 @@ def update_party(party_id):
             'error': 'Provide name, hq_address, logo_url and description as json.'
         }
         return jsonify(response), 400
-    party_data = {
-        'name': data.get('name'),
-        'hq_address': data.get('hq_address'),
-        'logo_url': data.get('logo_url'),
-        'description': data.get('description')
-    }
+    party_data = {}
+    for key in data.keys():
+        party_data[key] = data.get(key)
     valdiator_result = Validator.validate_party(party_data)
     if isinstance(valdiator_result, dict):
         return jsonify(valdiator_result), valdiator_result['status']

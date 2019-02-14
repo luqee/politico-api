@@ -27,7 +27,7 @@ def create_office():
         
     office_data = {
         'name': data.get('name'),
-        'office_type': data.get('type'),
+        'office_type': data.get('office_type'),
         'description': data.get('description')
     }
     valdiator_result = Validator.validate_office(office_data)
@@ -113,12 +113,9 @@ def update_office(office_id):
             'error': 'Provide name, office_type, and description as json'
         }
         return jsonify(response), 400
-        
-    office_data = {
-        'name': data.get('name'),
-        'office_type': data.get('type'),
-        'description': data.get('description')
-    }
+    office_data = {}
+    for key in data.keys():
+        office_data[key] = data.get(key)
     office = politico.update_office(office_id, office_data)
     if type(office) == Office:
         response = {

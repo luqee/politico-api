@@ -47,7 +47,7 @@ def test_update_office(client):
     test_utils.create_office(client, test_utils.OFFICES[1], headers)
     data = {
         'name': 'Prime',
-        'type': 'State',
+        'office_type': 'State',
         'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitatio'
     }
     response =client.patch('api/v1/offices/1', json=data, headers=headers)
