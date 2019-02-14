@@ -35,7 +35,7 @@ class Politico(object):
         # check if user exists
         if self.get_user(user_data['email']) == 'Not found':
             # check if othername is taken
-            othernames = [user.username for user in self.registered_users]
+            othernames = [user.othername for user in self.registered_users]
             if user_data['othername'] in othernames:
                 return 'Other name taken'
             # Add user as they don't exist
@@ -79,7 +79,7 @@ class Politico(object):
             self.registered_users.append(new_user)
             return 'User added'
         else:
-            return "User already exists"
+            return 'User already exists'
     
     def login_user(self, user_data):
         user = self.get_user(user_data['email'])

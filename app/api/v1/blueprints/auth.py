@@ -53,12 +53,13 @@ def register():
             'error': 'The othername you chose is taken'
         }
         return jsonify(response), 409
-    # notify the user that an account with the same email is already registered
-    response = {
-        'status': 409,
-        'error': 'User already exists'
-    }
-    return jsonify(response), 409
+    else:
+        # notify the user that an account with the same email is already registered
+        response = {
+            'status': 409,
+            'error': 'User already exists'
+        }
+        return jsonify(response), 409
 
 @auth_blueprint.route('/user/login', methods=['POST'])
 def login():

@@ -25,7 +25,7 @@ class Validator(object):
                 if not value.strip():
                     response = {
                         'status': 400,
-                        'error': 'Please provide a valid {}'.format(key)
+                        'error': '{} is invalid'.format(key)
                     }
                     return response
                 if key == 'email':
