@@ -35,7 +35,9 @@ class Politico(object):
         # check if user exists
         if self.get_user(user_data['email']) == 'Not found':
             # check if othername is taken
-            if user_data['othername'] in [user.username for user in self.registered_users]:
+            othernames = [user.username for user in self.registered_users]
+            print(othernames)
+            if user_data['othername'] in othernames:
                 return 'Other name taken'
             # Add user as they don't exist
             if user_data['is_admin'] == 'True':

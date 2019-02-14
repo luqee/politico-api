@@ -7,7 +7,7 @@ class User(object):
     def __init__(self, kwargs):
         self.firstname = kwargs.get('firstname')
         self.lastname = kwargs.get('lastname')
-        self.username = kwargs.get('username')
+        self.username = kwargs.get('othername')
         self.email = kwargs.get('email')
         self.phoneNumber = kwargs.get('phone_number')
         self.password = bcrypt.hashpw(kwargs.get('password').encode('utf8'), bcrypt.gensalt())

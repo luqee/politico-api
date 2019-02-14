@@ -9,7 +9,15 @@ party_blueprint = Blueprint('parties', __name__, url_prefix='/api/v1')
 @party_blueprint.route('/parties', methods=['POST'])
 @login_required
 def create_party():
-    data = request.get_json()
+    data = None
+    try:
+        data = request.get_json()
+    except:
+        response = {
+            'status': 400,
+            'error': 'Provide name, hq_address, logo_url and description as json.'
+        }
+        return jsonify(response), 400
     if not data:
         response = {
             'status': 400,
@@ -22,9 +30,11 @@ def create_party():
         'logo_url': data.get('logo_url'),
         'description': data.get('description')
     }
-    if Validator.validate_party(party_data):
+    valdiator_result = Validator.validate_user(party_data)
+    if isinstance(valdiator_result, dict):
+        return jsonify(valdiator_result), valdiator_result['status']
+    elif isinstance(valdiator_result, bool) and valdiator_result:
         result = politico.create_party(g.user, party_data)
-        # new_party = Party(name=name, hq_address=hq_address, logo_url=logo_url, description=description)
     if type(result) == Party:
         response = {
             'status': 201,
