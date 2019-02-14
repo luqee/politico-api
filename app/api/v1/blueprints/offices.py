@@ -95,11 +95,31 @@ def get_offices():
             })
         return jsonify(response), 200
 
-@office_blueprint.route('/offices/<int:office_id>/name', methods=['PATCH'])
+@office_blueprint.route('/offices/<int:office_id>', methods=['PATCH'])
 @login_required
 def update_office(office_id):
-    name = request.get_json()['name']
-    office = politico.update_office(office_id, name)
+    data = None
+    try:
+        data = request.get_json()
+    except:
+        response = {
+            'status': 400,
+            'error': 'Provide name, office_type, and description as json'
+        }
+        return jsonify(response), 400
+    if not data:
+        response = {
+            'status': 400,
+            'error': 'Provide name, office_type, and description as json'
+        }
+        return jsonify(response), 400
+        
+    office_data = {
+        'name': data.get('name'),
+        'office_type': data.get('type'),
+        'description': data.get('description')
+    }
+    office = politico.update_office(office_id, office_data)
     if type(office) == Office:
         response = {
             'status': 200,
