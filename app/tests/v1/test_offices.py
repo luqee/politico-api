@@ -10,6 +10,7 @@ def test_create_office(client):
     }
     response = client.post('api/v1/offices', json=test_utils.OFFICES[0], headers=headers)
     json_data = response.get_json()
+    print(json_data)
     assert response.status_code == 201
     assert type(json_data['data']) == list
 
