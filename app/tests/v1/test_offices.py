@@ -46,9 +46,11 @@ def test_update_office(client):
     }
     test_utils.create_office(client, test_utils.OFFICES[1], headers)
     data = {
-        'name': 'New Office'
+        'name': 'Prime',
+        'type': 'State',
+        'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitatio'
     }
-    response =client.patch('api/v1/offices/1/name', json=data, headers=headers)
+    response =client.patch('api/v1/offices/1', json=data, headers=headers)
     json_data = response.get_json()
     assert response.status_code == 200
     assert type(json_data['data']) == list

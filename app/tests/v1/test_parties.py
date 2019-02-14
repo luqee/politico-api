@@ -46,9 +46,12 @@ def test_update_party(client):
     test_party = test_utils.PARTIES[0]
     client.post('api/v1/parties', json=test_party, headers=headers)
     data = {
-        'name': 'New Party'
+        'name': 'New Party',
+        'hq_address': 'Lon Road',
+        'logo_url': 'url/to/logo.jpg',
+        'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
     }
-    response =client.patch('api/v1/parties/1/name', json=data, headers=headers)
+    response =client.patch('api/v1/parties/1', json=data, headers=headers)
     json_data = response.get_json()
     assert response.status_code == 200
     assert type(json_data['data']) == list
