@@ -113,10 +113,16 @@ def update_office(office_id):
             'error': 'Provide name, office_type, and description as json'
         }
         return jsonify(response), 400
+    valid_keys = ['name', 'office_type','description']
     office_data = {}
-    for key in data.keys():
+    for key in valid_keys:
         office_data[key] = data.get(key)
-    office = politico.update_office(office_id, office_data)
+    valdiator_result = Validator.validate_office(office_data)
+    if isinstance(valdiator_result, dict):
+        return jsonify(valdiator_result), valdiator_result['status']
+    elif isinstance(valdiator_result, bool) and valdiator_result:
+        office = politico.update_office(office_id, office_data)
+    
     if type(office) == Office:
         response = {
             'status': 200,

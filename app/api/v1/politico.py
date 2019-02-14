@@ -125,7 +125,7 @@ class Politico(object):
         return 'Party deleted'
     
     def create_office(self, current_user, office_data):
-        if current_user.is_admin == 'True':
+        if current_user.is_admin:
             new_office = models.office.Office(office_data)
             for office in self.registered_offices:
                 if office.name == new_office.name:
