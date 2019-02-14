@@ -7,49 +7,55 @@ class Validator(object):
     @staticmethod
     def validate_user(user_object):
         for key, value in user_object.items():
+            if key == 'is_admin' or key == 'is_politician':
+                if not type(value) == bool:
+                    response = {
+                        'status': 400,
+                        'error': '{} needs to be boolean'.format(key)
+                    }
+                    return response
             # ensure keys have values
-            if not value :
-                response = {
-                    'status': 400,
-                    'error': 'Please provide your {}'.format(key)
-                }
-                return response
-            if not value.strip():
-                response = {
-                    'status': 400,
-                    'error': 'Please provide a valid {}'.format(key)
-                }
-                return response
-
-            if key == 'email':
-                if Validator.check_email(value) == 'Invalid email':
+            else:
+                if not value :
                     response = {
                         'status': 400,
-                        'error': '{} is invalid'.format(key)
+                        'error': 'Please provide your {}'.format(key)
                     }
                     return response
-            if key == 'phone_number':
-                if Validator.check_number(value) == 'Invalid number':
+                if not value.strip():
                     response = {
                         'status': 400,
-                        'error': '{} is invalid'.format(key)
+                        'error': 'Please provide a valid {}'.format(key)
                     }
                     return response
-            # validate length
-            if key == "firstname" or key == "lastname" or key == "othername":
-                if len(value) < 3:
-                    response = {
-                        'status': 400,
-                        'error': "The {} provided is too short".format(key)
-                    }
-                    return response
-                elif len(value) > 15:
-                    response = {
-                        'status': 400,
-                        'error': "The {} provided is too long".format(key)
-                    }
-                    return response
-            
+                if key == 'email':
+                    if Validator.check_email(value) == 'Invalid email':
+                        response = {
+                            'status': 400,
+                            'error': '{} is invalid'.format(key)
+                        }
+                        return response
+                if key == 'phone_number':
+                    if Validator.check_number(value) == 'Invalid number':
+                        response = {
+                            'status': 400,
+                            'error': '{} is invalid'.format(key)
+                        }
+                        return response
+                # validate length
+                if key == "firstname" or key == "lastname" or key == "othername":
+                    if len(value) < 3:
+                        response = {
+                            'status': 400,
+                            'error': "The {} provided is too short".format(key)
+                        }
+                        return response
+                    elif len(value) > 15:
+                        response = {
+                            'status': 400,
+                            'error': "The {} provided is too long".format(key)
+                        }
+                        return response            
         return True
 
     @staticmethod
@@ -88,6 +94,7 @@ class Validator(object):
     def validate_office(office_object):
         office_types = ['federal', 'legislative', 'state', 'local government']
         for key, value in office_object.items():
+            print(key)
             # ensure keys have values
             if not value:
                 response = {

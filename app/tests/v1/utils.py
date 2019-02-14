@@ -12,8 +12,8 @@ class Utils(object):
         'passportUrl' : 'some/url/pass.jpg',
         'address': '123 fith street',
         'password': 'password',
-        'is_admin': 'True',
-        'is_politician': 'False'
+        'is_admin': True,
+        'is_politician': False
     }
     POLITICIAN = {
         'firstname': 'Donald',
@@ -24,8 +24,8 @@ class Utils(object):
         'passportUrl' : 'some/url/pass.jpg',
         'home_county': 'Rongai',
         'password': 'password',
-        'is_admin': 'False',
-        'is_politician': 'True'
+        'is_admin': False,
+        'is_politician': True
     }
 
     USER = {
@@ -36,8 +36,8 @@ class Utils(object):
         'phone_number': '254726094972',
         'passportUrl' : 'some/url/pass.jpg',
         'password': 'password',
-        'is_admin': 'False',
-        'is_politician': 'False'
+        'is_admin': False,
+        'is_politician': False
     }
 
     PARTIES = [
