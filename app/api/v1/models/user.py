@@ -4,7 +4,7 @@ import jwt
 import bcrypt
 
 class User(object):
-    def __init__(self, kwargs):
+    def __init__(self, **kwargs):
         self.firstname = kwargs.get('firstname')
         self.lastname = kwargs.get('lastname')
         self.username = kwargs.get('othername')
@@ -56,11 +56,11 @@ class User(object):
             return "Invalid token. Please register or login"
 
 class Admin(User):
-    def __init__(self, kwargs):
+    def __init__(self, **kwargs):
         self.address = kwargs.get('address')
-        super(Admin, self).__init__(kwargs)
+        super(Admin, self).__init__(**kwargs)
 
 class Politician(User):
-    def __init__(self, kwargs):
+    def __init__(self, **kwargs):
         self.home_county = kwargs.get('home_county')
-        super(Politician, self).__init__(kwargs)
+        super(Politician, self).__init__(**kwargs)

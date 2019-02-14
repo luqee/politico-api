@@ -8,7 +8,7 @@ class Validator(object):
     def validate_user(user_object):
         for key, value in user_object.items():
             # ensure keys have values
-            if not value:
+            if not value :
                 response = {
                     'status': 400,
                     'error': 'Please provide your {}'.format(key)
@@ -63,7 +63,6 @@ class Validator(object):
                 }
                 return response
             if not value.strip():
-                print(key, value)
                 response = {
                     'status': 400,
                     'error': 'Please provide a valid {}'.format(key)
@@ -87,6 +86,7 @@ class Validator(object):
 
     @staticmethod
     def validate_office(office_object):
+        print(office_object.keys())
         office_types = ['federal', 'legislative', 'state', 'local government']
         for key, value in office_object.items():
             # ensure keys have values
@@ -97,7 +97,6 @@ class Validator(object):
                 }
                 return response
             if not value.strip():
-                print(key, value)
                 response = {
                     'status': 400,
                     'error': 'Please provide a valid {}'.format(key)
@@ -118,6 +117,7 @@ class Validator(object):
                     }
                     return response
             if key == 'office_type':
+                print(value)
                 if value not in office_types:
                     response = {
                         'status': 400,

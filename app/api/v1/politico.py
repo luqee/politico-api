@@ -36,16 +36,44 @@ class Politico(object):
         if self.get_user(user_data['email']) == 'Not found':
             # check if othername is taken
             othernames = [user.username for user in self.registered_users]
-            print(othernames)
             if user_data['othername'] in othernames:
                 return 'Other name taken'
             # Add user as they don't exist
             if user_data['is_admin'] == 'True':
-                new_user = models.user.Admin(user_data)
+                new_user = models.user.Admin(
+                    firstname=user_data['firstname'],
+                    lastname=user_data['lastname'],
+                    email=user_data['email'],
+                    othername=user_data['othername'],
+                    phone_number=user_data['phone_number'],
+                    address=user_data.get('address'),
+                    is_admin=user_data['is_admin'],
+                    is_politician=user_data['is_politician'],
+                    password=user_data['password']
+                )
             elif user_data['is_politician'] == 'True':
-                new_user = models.user.Politician(user_data)
+                new_user = models.user.Politician(
+                    firstname=user_data['firstname'],
+                    lastname=user_data['lastname'],
+                    email=user_data['email'],
+                    othername=user_data['othername'],
+                    phone_number=user_data['phone_number'],
+                    home_county=user_data.get('home_county'),
+                    is_admin=user_data['is_admin'],
+                    is_politician=user_data['is_politician'],
+                    password=user_data['password']
+                )
             else:
-                new_user = models.user.User(user_data)
+                new_user = models.user.User(
+                    firstname=user_data['firstname'],
+                    lastname=user_data['lastname'],
+                    email=user_data['email'],
+                    othername=user_data['othername'],
+                    phone_number=user_data['phone_number'],
+                    is_admin=user_data['is_admin'],
+                    is_politician=user_data['is_politician'],
+                    password=user_data['password']
+                )
             new_user.id = len(self.registered_users) + 1
             
             self.registered_users.append(new_user)

@@ -6,7 +6,7 @@ class Utils(object):
     ADMIN = {
         'firstname': 'Luda',
         'lastname': 'one',
-        'othername': 'quack',
+        'othername': 'politic',
         'email': 'politician@app.com',
         'phone_number': '254726094972',
         'passportUrl' : 'some/url/pass.jpg',
@@ -31,7 +31,7 @@ class Utils(object):
     USER = {
         'firstname': 'Luda',
         'lastname': 'one',
-        'othername': 'quack',
+        'othername': 'luqee',
         'email': 'user@app.com',
         'phone_number': '254726094972',
         'passportUrl' : 'some/url/pass.jpg',

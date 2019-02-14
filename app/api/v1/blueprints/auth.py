@@ -32,6 +32,7 @@ def register():
         'othername': data.get('othername'),
         'phone_number': data.get('phone_number'),
         'is_admin': data.get('is_admin'),
+        'is_politician': data.get('is_politician')
     }
     valdiator_result = Validator.validate_user(user_data)
     if isinstance(valdiator_result, dict):

@@ -30,7 +30,7 @@ def create_party():
         'logo_url': data.get('logo_url'),
         'description': data.get('description')
     }
-    valdiator_result = Validator.validate_user(party_data)
+    valdiator_result = Validator.validate_party(party_data)
     if isinstance(valdiator_result, dict):
         return jsonify(valdiator_result), valdiator_result['status']
     elif isinstance(valdiator_result, bool) and valdiator_result:

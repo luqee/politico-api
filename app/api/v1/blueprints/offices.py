@@ -30,7 +30,7 @@ def create_office():
         'office_type': data.get('type'),
         'description': data.get('description')
     }
-    valdiator_result = Validator.validate_user(office_data)
+    valdiator_result = Validator.validate_office(office_data)
     if isinstance(valdiator_result, dict):
         return jsonify(valdiator_result), valdiator_result['status']
     elif isinstance(valdiator_result, bool) and valdiator_result:
