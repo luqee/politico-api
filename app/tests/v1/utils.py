@@ -57,17 +57,17 @@ class Utils(object):
     OFFICES = [
         {
             'name': 'President',
-            'type': 'State',
+            'office_type': 'State',
             'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitatio'
         },
         {
             'name': 'Women Rep',
-            'type': 'Legislative',
+            'office_type': 'Legislative',
             'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitatio'
         },
         {
             'name': 'Chief',
-            'type': 'Local Government',
+            'office_type': 'Local Government',
             'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitatio'
         },
     ]

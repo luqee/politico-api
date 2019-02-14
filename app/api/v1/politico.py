@@ -107,11 +107,14 @@ class Politico(object):
     def get_parties(self):
         return self.registered_parties
     
-    def update_party(self, party_id, name):
+    def update_party(self, party_id, party_data):
         party = self.get_party_by_id(party_id)
         if party == 'Not found':
             return 'Party not found'
-        party.name = name
+        party.name = party_data['name']
+        party.hq_address = party_data['hq_address']
+        party.logo_url = party_data['logo_url']
+        party.description = party_data['description']
         return party
     
     def delete_party(self, party_id):
@@ -135,11 +138,13 @@ class Politico(object):
     def get_offices(self):
         return self.registered_offices
     
-    def update_office(self, office_id, name):
+    def update_office(self, office_id, office_data):
         office = self.get_office_by_id(office_id)
         if office == 'Not found':
             return 'Office not found'
-        office.name = name
+        office.name = office_data['name']
+        office.type = office_data['office_type']
+        office.description = office_data['description']
         return office
     
     def delete_office(self, office_id):
