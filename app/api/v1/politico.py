@@ -39,7 +39,7 @@ class Politico(object):
             if user_data['othername'] in othernames:
                 return 'Other name taken'
             # Add user as they don't exist
-            if user_data['is_admin'] == 'True':
+            if user_data['is_admin']:
                 new_user = models.user.Admin(
                     firstname=user_data['firstname'],
                     lastname=user_data['lastname'],
@@ -51,7 +51,7 @@ class Politico(object):
                     is_politician=user_data['is_politician'],
                     password=user_data['password']
                 )
-            elif user_data['is_politician'] == 'True':
+            elif user_data['is_politician']:
                 new_user = models.user.Politician(
                     firstname=user_data['firstname'],
                     lastname=user_data['lastname'],

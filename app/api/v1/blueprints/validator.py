@@ -8,18 +8,20 @@ class Validator(object):
     def validate_user(user_object):
         for key, value in user_object.items():
             # ensure keys have values
-            if not value :
-                response = {
-                    'status': 400,
-                    'error': 'Please provide your {}'.format(key)
-                }
-                return response
-            if not value.strip():
-                response = {
-                    'status': 400,
-                    'error': 'Please provide a valid {}'.format(key)
-                }
-                return response
+            if not type(value) == bool:
+                if not value :
+                    response = {
+                        'status': 400,
+                        'error': 'Please provide your {}'.format(key)
+                    }
+                    return response
+            if not type(value) == bool:
+                if not value.strip():
+                    response = {
+                        'status': 400,
+                        'error': 'Please provide a valid {}'.format(key)
+                    }
+                    return response
 
             if key == 'email':
                 if Validator.check_email(value) == 'Invalid email':
