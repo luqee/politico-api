@@ -34,7 +34,7 @@ def create_office():
     if isinstance(valdiator_result, dict):
         return jsonify(valdiator_result), valdiator_result['status']
     elif isinstance(valdiator_result, bool) and valdiator_result:
-        result = politico.create_office(g.user, office_data)
+        result = politico.create_resource(g.user, office_data, 'office')
     if type(result) == Office:
         response = {
             'status': 201,
@@ -60,7 +60,7 @@ def create_office():
 
 @office_blueprint.route('/offices/<int:office_id>', methods=['GET'])
 def get_office(office_id):
-    office = politico.get_office_by_id(office_id)
+    office = politico.get_resource_by_id(office_id, 'office')
     if office == 'Not found':
         response = {
             'status': 404,
@@ -121,7 +121,7 @@ def update_office(office_id):
     if isinstance(valdiator_result, dict):
         return jsonify(valdiator_result), valdiator_result['status']
     elif isinstance(valdiator_result, bool) and valdiator_result:
-        office = politico.update_office(office_id, office_data)
+        office = politico.update_resource('office', office_id, office_data)
     
     if type(office) == Office:
         response = {
@@ -143,7 +143,7 @@ def update_office(office_id):
 @office_blueprint.route('/offices/<int:office_id>', methods=['DELETE'])
 @login_required
 def delete_office(office_id):
-    result = politico.delete_office(office_id)
+    result = politico.delete_resource('office', office_id)
     if result == 'Office deleted':
         response = {
             'status': 202,

@@ -94,7 +94,6 @@ class Validator(object):
     def validate_office(office_object):
         office_types = ['federal', 'legislative', 'state', 'local government']
         for key, value in office_object.items():
-            print(key)
             # ensure keys have values
             if not value:
                 response = {

@@ -6,12 +6,12 @@ class Politico(object):
         self.registered_users = []
         self.registered_parties = []
         self.registered_offices = []
-    
-    def get_user(self, email):
-        for user in self.registered_users:
-            if user.email == email:
-                return user
-        return 'Not found'
+
+    def get_parties(self):
+        return self.registered_parties
+
+    def get_offices(self):
+        return self.registered_offices
     
     def get_user_by_id(self, user_id):
         for user in self.registered_users:
@@ -19,17 +19,23 @@ class Politico(object):
                 return user
         return 'Not found'
 
-    def get_party_by_id(self, party_id):
-        for party in self.registered_parties:
-            if party.id == party_id:
-                return party
+    def get_user(self, email):
+        for user in self.registered_users:
+            if user.email == email:
+                return user
         return 'Not found'
 
-    def get_office_by_id(self, office_id):
-        for office in self.registered_offices:
-            if office.id == office_id:
-                return office
-        return 'Not found'
+    def get_resource_by_id(self, resource_id, resource_type):
+        if resource_type == 'party':
+            for party in self.registered_parties:
+                if party.id == resource_id:
+                    return party
+            return 'Not found'  
+        elif resource_type == 'office':
+            for office in self.registered_offices:
+                if office.id == resource_id:
+                    return office
+            return 'Not found'
 
     def register_user(self, user_data):
         # check if user exists
@@ -93,69 +99,68 @@ class Politico(object):
             else:
                 return 'Invalid credentials'
 
-    def create_party(self, current_user, party_data):
-        if current_user.is_admin:
-            new_party = models.party.Party(party_data)
+    def check_resource_exists(self, resource_type, resource):
+        if resource_type == 'party':
+            # check if it exists
             for party in self.registered_parties:
-                if party.name == new_party.name:
-                    return 'Party exists'
-            new_party.id = len(self.registered_parties) + 1
-            self.registered_parties.append(new_party)
-            return new_party
-        return 'Forbiden'
-    
-    def get_parties(self):
-        return self.registered_parties
-    
-    def update_party(self, party_id, party_data):
-        print(type(party_id))
-        party = self.get_party_by_id(party_id)
-        print(party)
-        if party == 'Not found':
-            return 'Party not found'
-        else:
-            party.name = party_data['name']
-            party.hq_address = party_data['hq_address']
-            party.logo_url = party_data['logo_url']
-            party.description = party_data['description']
-            return party
-    
-    def delete_party(self, party_id):
-        party = self.get_party_by_id(party_id)
-        print(type(party_id))
-        if party == 'Not found':
-            return 'Party not found'
-        elif type(models.party.Party):
-            self.registered_parties.remove(party)
-            return 'Party deleted'
-    
-    def create_office(self, current_user, office_data):
-        if current_user.is_admin:
-            new_office = models.office.Office(office_data)
+                if party.name == resource['name']:
+                    return True
+            return False
+        elif resource_type == 'office':
             for office in self.registered_offices:
-                if office.name == new_office.name:
-                    return 'Office exists'
-            new_office.id = len(self.registered_offices) + 1
-            self.registered_offices.append(new_office)
-            return new_office
-        return 'Forbiden'
+                if office.name == resource['name']:
+                    return True
+            return False
 
-    def get_offices(self):
-        return self.registered_offices
+    def create_resource(self, current_user, resource, resource_type):
+        if current_user.is_admin:
+            if self.check_resource_exists(resource_type, resource):
+                return '{} exists'.format(resource_type.capitalize())
+            else:
+                if resource_type == 'party':
+                    new_party = models.party.Party(resource)
+                    new_party.id = len(self.registered_parties) + 1
+                    self.registered_parties.append(new_party)
+                    return new_party
+                elif resource_type == 'office':
+                    new_office = models.office.Office(resource)
+                    new_office.id = len(self.registered_offices) + 1
+                    self.registered_offices.append(new_office)
+                    return new_office
+        return 'Forbiden'
     
-    def update_office(self, office_id, office_data):
-        office = self.get_office_by_id(office_id)
-        if office == 'Not found':
-            return 'Office not found'
-        office.name = office_data['name']
-        office.type = office_data['office_type']
-        office.description = office_data['description']
-        return office
+    def update_resource(self, resource_type, resource_id, resource):
+        if resource_type == 'party':
+            party = self.get_resource_by_id(resource_id, resource_type)
+            if party == 'Not found':
+                return 'Party not found'
+            elif type(party) == models.party.Party:
+                party.name = resource['name']
+                party.hq_address = resource['hq_address']
+                party.logo_url = resource['logo_url']
+                party.description = resource['description']
+                return party
+        elif resource_type == 'office':
+            office = self.get_resource_by_id(resource_id, resource_type)
+            if office == 'Not found':
+                return 'Office not found'
+            office.name = resource['name']
+            office.type = resource['office_type']
+            office.description = resource['description']
+            return office
     
-    def delete_office(self, office_id):
-        office = self.get_office_by_id(office_id)
-        if office == 'Not found':
-            return 'Office not found'
-        elif type(models.office.Office):
-            self.registered_offices.remove(office)
-            return 'Office deleted'
+    def delete_resource(self, resource_type, resource_id):
+        if resource_type == 'party':
+            party = self.get_resource_by_id(resource_id, resource_type)
+            if party == 'Not found':
+                return 'Party not found'
+            elif type(party) == models.party.Party:
+                self.registered_parties.remove(party)
+                return 'Party deleted'
+        elif resource_type == 'office':
+            office = self.get_resource_by_id(resource_id, resource_type)
+            if office == 'Not found':
+                return 'Office not found'
+            elif type(office) == models.office.Office:
+                self.registered_offices.remove(office)
+                return 'Office deleted'

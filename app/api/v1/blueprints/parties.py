@@ -32,9 +32,9 @@ def create_party():
     }
     valdiator_result = Validator.validate_party(party_data)
     if isinstance(valdiator_result, dict):
-        return jsonify(valdiator_result), valdiator_result['status']
+        return make_response(jsonify(valdiator_result), valdiator_result['status'])
     elif isinstance(valdiator_result, bool) and valdiator_result:
-        result = politico.create_party(g.user, party_data)
+        result = politico.create_resource(g.user, party_data, 'party')
     if type(result) == Party:
         response = {
             'status': 201,
@@ -59,7 +59,7 @@ def create_party():
 
 @party_blueprint.route('/parties/<int:party_id>', methods=['GET'])
 def get_party(party_id):
-    party = politico.get_party_by_id(party_id)
+    party = politico.get_resource_by_id(party_id, 'party')
     if party == 'Not found':
         response = {
             'status': 404,
@@ -119,9 +119,9 @@ def update_party(party_id):
         party_data[key] = data.get(key)
     valdiator_result = Validator.validate_party(party_data)
     if isinstance(valdiator_result, dict):
-        return jsonify(valdiator_result), valdiator_result['status']
+        return make_response(jsonify(valdiator_result), valdiator_result['status']) 
     elif isinstance(valdiator_result, bool) and valdiator_result:
-        party = politico.update_party(party_id, party_data)
+        party = politico.update_resource('party', party_id, party_data)
     if type(party) == Party:
         response = {
             'status': 200,
@@ -142,7 +142,7 @@ def update_party(party_id):
 @party_blueprint.route('/parties/<int:party_id>', methods=['DELETE'])
 @login_required
 def delete_party(party_id):
-    result = politico.delete_party(party_id)
+    result = politico.delete_resource('party', party_id)
     if result == 'Party deleted':
         response = {
             'status': 202,

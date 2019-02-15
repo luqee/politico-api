@@ -114,7 +114,6 @@ def test_user_register_with_empty_payload(client):
 def test_user_register_with_no_payload(client):
     response = client.post('api/v1/auth/user/register')
     json_data = response.get_json()
-    print(json_data)
     assert response.status_code == 400
     assert json_data['status'] == 400
     assert type(json_data['error']) == str
