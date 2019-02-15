@@ -10,9 +10,88 @@ def test_create_office(client):
     }
     response = client.post('api/v1/offices', json=test_utils.OFFICES[0], headers=headers)
     json_data = response.get_json()
-    print(json_data)
     assert response.status_code == 201
     assert type(json_data['data']) == list
+
+def test_create_duplicate_office(client):
+    test_utils.register_user(client, 'admin')
+    login_res = test_utils.login_user(client, 'admin')
+    headers = {
+        'Authorization': 'Bearer {0}'.format(login_res.get_json()['data'][0]['auth_token'])
+    }
+    client.post('api/v1/offices', json=test_utils.OFFICES[0], headers=headers)
+    response = client.post('api/v1/offices', json=test_utils.OFFICES[0], headers=headers)
+    json_data = response.get_json()
+    assert response.status_code == 409
+    assert json_data['status'] == 409
+    assert type(json_data['error']) == str
+    assert json_data['error'] == 'Office exists'
+
+def test_create_office_no_payload(client):
+    test_utils.register_user(client, 'admin')
+    login_res = test_utils.login_user(client, 'admin')
+    headers = {
+        'Authorization': 'Bearer {0}'.format(login_res.get_json()['data'][0]['auth_token'])
+    }
+    response = client.post('api/v1/offices', headers=headers)
+    json_data = response.get_json()
+    assert response.status_code == 400
+    assert json_data['status'] == 400
+    assert type(json_data['error']) == str
+    assert json_data['error'] == 'Provide name, office_type, and description as json'
+
+def test_create_office_empty_payload(client):
+    test_utils.register_user(client, 'admin')
+    login_res = test_utils.login_user(client, 'admin')
+    headers = {
+        'Authorization': 'Bearer {0}'.format(login_res.get_json()['data'][0]['auth_token'])
+    }
+    data = {
+
+    }
+    response = client.post('api/v1/offices', json=data, headers=headers)
+    json_data = response.get_json()
+    assert response.status_code == 400
+    assert json_data['status'] == 400
+    assert type(json_data['error']) == str
+    assert json_data['error'] == 'Provide name, office_type, and description as json'
+
+def test_create_office_no_name(client):
+    test_utils.register_user(client, 'admin')
+    login_res = test_utils.login_user(client, 'admin')
+    headers = {
+        'Authorization': 'Bearer {0}'.format(login_res.get_json()['data'][0]['auth_token'])
+    }
+    data = {
+        'name': '',
+        'office_type': test_utils.OFFICES[0]['office_type'],
+        'description': test_utils.OFFICES[0]['description']
+    }
+    response = client.post('api/v1/offices', json=data, headers=headers)
+    json_data = response.get_json()
+    assert response.status_code == 400
+    assert json_data['status'] == 400
+    assert type(json_data['error']) == str
+    assert json_data['error'] == 'Please provide the name'
+
+def test_create_office_invalid_name(client):
+    test_utils.register_user(client, 'admin')
+    login_res = test_utils.login_user(client, 'admin')
+    headers = {
+        'Authorization': 'Bearer {0}'.format(login_res.get_json()['data'][0]['auth_token'])
+    }
+    data = {
+        'name': 'we',
+        'office_type': test_utils.OFFICES[0]['office_type'],
+        'description': test_utils.OFFICES[0]['description']
+    }
+    response = client.post('api/v1/offices', json=data, headers=headers)
+    json_data = response.get_json()
+    assert response.status_code == 400
+    assert json_data['status'] == 400
+    assert type(json_data['error']) == str
+    assert json_data['error'] == 'The name provided is too short'
+
 
 def test_get_office(client):
     test_utils.register_user(client, 'admin')

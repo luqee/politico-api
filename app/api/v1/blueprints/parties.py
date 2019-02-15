@@ -135,9 +135,7 @@ def update_party(party_id):
     elif party == 'Party not found':
         response = {
             'status': 404,
-            'data':[{
-                'error': 'Party not found'
-            }]
+            'error': 'Party not found'
         }
         return jsonify(response, 404)
 
