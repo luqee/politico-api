@@ -134,6 +134,55 @@ def test_update_office(client):
     assert response.status_code == 200
     assert type(json_data['data']) == list
 
+def test_update_office_empty_payload(client):
+    test_utils.register_user(client, 'admin')
+    login_res = test_utils.login_user(client, 'admin')
+    headers = {
+        'Authorization': 'Bearer {0}'.format(login_res.get_json()['data'][0]['auth_token'])
+    }
+    test_utils.create_office(client, test_utils.OFFICES[1], headers)
+    data = {
+    }
+    response =client.patch('api/v1/offices/1', json=data, headers=headers)
+    json_data = response.get_json()
+    assert response.status_code == 400
+    assert json_data['status'] == 400
+    assert type(json_data['error']) == str
+    assert json_data['error'] == 'Provide name, office_type, and description as json'
+
+def test_update_office_no_payload(client):
+    test_utils.register_user(client, 'admin')
+    login_res = test_utils.login_user(client, 'admin')
+    headers = {
+        'Authorization': 'Bearer {0}'.format(login_res.get_json()['data'][0]['auth_token'])
+    }
+    test_utils.create_office(client, test_utils.OFFICES[1], headers)
+    response =client.patch('api/v1/offices/1', headers=headers)
+    json_data = response.get_json()
+    assert response.status_code == 400
+    assert json_data['status'] == 400
+    assert type(json_data['error']) == str
+    assert json_data['error'] == 'Provide name, office_type, and description as json'
+
+def test_update_non_existing_office(client):
+    test_utils.register_user(client, 'admin')
+    login_res = test_utils.login_user(client, 'admin')
+    headers = {
+        'Authorization': 'Bearer {0}'.format(login_res.get_json()['data'][0]['auth_token'])
+    }
+    data = {
+        'name': 'Prime',
+        'office_type': 'State',
+        'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitatio'
+    }
+    test_utils.create_office(client, test_utils.OFFICES[1], headers)
+    response =client.patch('api/v1/offices/12', json=data, headers=headers)
+    json_data = response.get_json()
+    assert response.status_code == 404
+    assert json_data['status'] == 404
+    assert type(json_data['error']) == str
+    assert json_data['error'] == 'Office not found'
+
 def test_delete_office(client):
     test_utils.register_user(client, 'admin')
     login_res = test_utils.login_user(client, 'admin')
@@ -146,3 +195,17 @@ def test_delete_office(client):
     assert response.status_code == 202
     assert type(json_data['data']) == list
     assert json_data['data'][0]['message'] == 'Office deleted successfully'
+
+def test_delete_non_existing_office(client):
+    test_utils.register_user(client, 'admin')
+    login_res = test_utils.login_user(client, 'admin')
+    headers = {
+        'Authorization': 'Bearer {0}'.format(login_res.get_json()['data'][0]['auth_token'])
+    }
+    test_utils.create_office(client, test_utils.OFFICES[1], headers)
+    response =client.delete('api/v1/offices/9', headers=headers)
+    json_data = response.get_json()
+    assert response.status_code == 404
+    assert json_data['status'] == 404
+    assert type(json_data['error']) == str
+    assert json_data['error'] == 'Office not found'

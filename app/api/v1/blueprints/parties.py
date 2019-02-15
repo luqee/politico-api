@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, g
+from flask import Blueprint, request, make_response,jsonify, g
 from app.api.v1.models.party import Party
 from app import politico
 from .decorators import login_required
@@ -17,13 +17,13 @@ def create_party():
             'status': 400,
             'error': 'Provide name, hq_address, logo_url and description as json.'
         }
-        return jsonify(response), 400
+        return make_response(jsonify(response), 400)
     if not data:
         response = {
             'status': 400,
             'error': 'Provide name, hq_address, logo_url and description as json.'
         }
-        return jsonify(response), 400
+        return make_response(jsonify(response), 400)
     party_data = {
         'name': data.get('name'),
         'hq_address': data.get('hq_address'),
@@ -43,19 +43,19 @@ def create_party():
                 'name': result.name
             }]
         }
-        return jsonify(response), 201
+        return make_response(jsonify(response), 201)
     elif result == 'Forbiden':
         response = {
             'status': 403,
             'error': 'You need to be an admin to create a party'
         }
-        return jsonify(response), 403
+        return make_response(jsonify(response), 403)
     elif result == 'Party exists':
         response = {
             'status': 409,
             'error': 'Party exists'
         }
-        return jsonify(response), 409
+        return make_response(jsonify(response), 409)
 
 @party_blueprint.route('/parties/<int:party_id>', methods=['GET'])
 def get_party(party_id):
@@ -65,7 +65,7 @@ def get_party(party_id):
             'status': 404,
             'error': 'Party not found'
         }        
-        return jsonify(response), 404
+        return make_response(jsonify(response), 404)
     if type(party) == Party:
         response = {
             'status': 200,
@@ -76,7 +76,7 @@ def get_party(party_id):
             'name': party.name,
             'logo_url': party.logo_url
         })
-        return jsonify(response), 200
+        return make_response(jsonify(response), 200)
 
 @party_blueprint.route('/parties', methods=['GET'])
 def get_parties():
@@ -92,7 +92,7 @@ def get_parties():
                 'name': party.name,
                 'logo_url': party.logo_url
             })
-        return jsonify(response), 200
+        return make_response(jsonify(response), 200)
 
 @party_blueprint.route('/parties/<int:party_id>', methods=['PATCH'])
 @login_required
@@ -105,13 +105,13 @@ def update_party(party_id):
             'status': 400,
             'error': 'Provide name, hq_address, logo_url and description as json.'
         }
-        return jsonify(response), 400
+        return make_response(jsonify(response), 400)
     if not data:
         response = {
             'status': 400,
             'error': 'Provide name, hq_address, logo_url and description as json.'
         }
-        return jsonify(response), 400
+        return make_response(jsonify(response), 400)
     
     valid_keys = ['name', 'hq_address', 'logo_url','description']
     party_data = {}
@@ -131,13 +131,13 @@ def update_party(party_id):
             'id': party.id,
             'name': party.name
         })
-        return jsonify(response), 200
+        return make_response(jsonify(response), 200)
     elif party == 'Party not found':
         response = {
             'status': 404,
             'error': 'Party not found'
         }
-        return jsonify(response, 404)
+        return make_response(jsonify(response), 404)
 
 @party_blueprint.route('/parties/<int:party_id>', methods=['DELETE'])
 @login_required
@@ -151,12 +151,10 @@ def delete_party(party_id):
         response['data'].append({
             'message': 'Party deleted successfully'
         })
-        return jsonify(response), 202
-    elif party == 'Party not found':
+        return make_response(jsonify(response), 202)
+    elif result == 'Party not found':
         response = {
             'status': 404,
-            'data':[{
-                'error': 'Party not found'
-            }]
+            'error': 'Party not found'
         }
-        return jsonify(response, 404)
+        return make_response(jsonify(response), 404)

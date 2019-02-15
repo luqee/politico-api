@@ -202,7 +202,26 @@ def test_update_party_empty_data(client):
     assert type(json_data['error']) == str
     assert json_data['error'] == 'Provide name, hq_address, logo_url and description as json.'
 
-
+def test_update_non_existing_party(client):
+    test_utils.register_user(client, 'admin')
+    login_res = test_utils.login_user(client, 'admin')
+    headers = {
+        'Authorization': 'Bearer {0}'.format(login_res.get_json()['data'][0]['auth_token'])
+    }
+    test_party = test_utils.PARTIES[0]
+    client.post('api/v1/parties', json=test_party, headers=headers)
+    data = {
+        'name': 'New data',
+        'hq_address': 'Lon Road',
+        'logo_url': 'url/to/logo.jpg',
+        'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+    }
+    response =client.patch('api/v1/parties/13', json=data, headers=headers)
+    json_data = response.get_json()
+    assert response.status_code == 404
+    assert json_data['status'] == 404
+    assert type(json_data['error']) == str
+    assert json_data['error'] == 'Party not found'
 
 def test_delete_party(client):
     test_utils.register_user(client, 'admin')
@@ -216,3 +235,17 @@ def test_delete_party(client):
     assert req_response.status_code == 202
     assert type(json_data['data']) == list
     assert json_data['data'][0]['message'] == 'Party deleted successfully'
+
+def test_delete_non_existing_party(client):
+    test_utils.register_user(client, 'admin')
+    login_res = test_utils.login_user(client, 'admin')
+    headers = {
+        'Authorization': 'Bearer {0}'.format(login_res.get_json()['data'][0]['auth_token'])
+    }
+    client.post('api/v1/parties', json=test_utils.PARTIES[0], headers=headers)
+    req_response =client.delete('api/v1/parties/7', headers=headers)
+    json_data = req_response.get_json()
+    assert req_response.status_code == 404
+    assert json_data['status'] == 404
+    assert type(json_data['error']) == str
+    assert json_data['error'] == 'Party not found'

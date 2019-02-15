@@ -108,7 +108,7 @@ class Politico(object):
         return self.registered_parties
     
     def update_party(self, party_id, party_data):
-        print(party_id)
+        print(type(party_id))
         party = self.get_party_by_id(party_id)
         print(party)
         if party == 'Not found':
@@ -122,10 +122,12 @@ class Politico(object):
     
     def delete_party(self, party_id):
         party = self.get_party_by_id(party_id)
+        print(type(party_id))
         if party == 'Not found':
             return 'Party not found'
-        self.registered_parties.remove(party)
-        return 'Party deleted'
+        elif type(models.party.Party):
+            self.registered_parties.remove(party)
+            return 'Party deleted'
     
     def create_office(self, current_user, office_data):
         if current_user.is_admin:
@@ -154,5 +156,6 @@ class Politico(object):
         office = self.get_office_by_id(office_id)
         if office == 'Not found':
             return 'Office not found'
-        self.registered_offices.remove(office)
-        return 'Office deleted'
+        elif type(models.office.Office):
+            self.registered_offices.remove(office)
+            return 'Office deleted'

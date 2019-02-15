@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, g
+from flask import Blueprint, make_response,request, jsonify, g
 from app.api.v1.models.office import Office
 from app import politico
 from .decorators import login_required
@@ -17,13 +17,13 @@ def create_office():
             'status': 400,
             'error': 'Provide name, office_type, and description as json'
         }
-        return jsonify(response), 400
+        return make_response(jsonify(response), 400)
     if not data:
         response = {
             'status': 400,
             'error': 'Provide name, office_type, and description as json'
         }
-        return jsonify(response), 400
+        return make_response(jsonify(response), 400)
         
     office_data = {
         'name': data.get('name'),
@@ -44,19 +44,19 @@ def create_office():
                 'name': result.name
             }]
         }
-        return jsonify(response), 201
+        return make_response(jsonify(response), 201)
     elif result == 'Forbiden':
         response = {
             'status': 403,
             'error': 'You need to be an admin to create an office'
         }
-        return jsonify(response), 403
+        return make_response(jsonify(response), 403)
     elif result == 'Office exists':
         response = {
             'status': 409,
             'error': 'Office exists'
         }
-        return jsonify(response), 409
+        return make_response(jsonify(response), 409)
 
 @office_blueprint.route('/offices/<int:office_id>', methods=['GET'])
 def get_office(office_id):
@@ -77,7 +77,7 @@ def get_office(office_id):
             'type': office.type,
             'name': office.name
         })
-        return jsonify(response), 200
+        return make_response(jsonify(response), 200)
 
 @office_blueprint.route('/offices', methods=['GET'])
 def get_offices():
@@ -93,7 +93,7 @@ def get_offices():
                 'type': office.type,
                 'name': office.name
             })
-        return jsonify(response), 200
+        return make_response(jsonify(response), 200)
 
 @office_blueprint.route('/offices/<int:office_id>', methods=['PATCH'])
 @login_required
@@ -106,13 +106,13 @@ def update_office(office_id):
             'status': 400,
             'error': 'Provide name, office_type, and description as json'
         }
-        return jsonify(response), 400
+        return make_response(jsonify(response), 400)
     if not data:
         response = {
             'status': 400,
             'error': 'Provide name, office_type, and description as json'
         }
-        return jsonify(response), 400
+        return make_response(jsonify(response), 400)
     valid_keys = ['name', 'office_type','description']
     office_data = {}
     for key in valid_keys:
@@ -132,15 +132,13 @@ def update_office(office_id):
             'id': office.id,
             'name': office.name
         })
-        return jsonify(response), 200
+        return make_response(jsonify(response), 200)
     elif office == 'Office not found':
         response = {
             'status': 404,
-            'data':[{
-                'error': 'Office not found'
-            }]
+            'error': 'Office not found'
         }
-        return jsonify(response, 404)
+        return make_response(jsonify(response), 404)
 
 @office_blueprint.route('/offices/<int:office_id>', methods=['DELETE'])
 @login_required
@@ -154,12 +152,10 @@ def delete_office(office_id):
         response['data'].append({
             'message': 'Office deleted successfully'
         })
-        return jsonify(response), 202
+        return make_response(jsonify(response), 202)
     elif result == 'Office not found':
         response = {
             'status': 404,
-            'data':[{
-                'error': 'Office not found'
-            }]
+            'error': 'Office not found'
         }
-        return jsonify(response, 404)
+        return make_response(jsonify(response), 404)
