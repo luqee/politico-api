@@ -1,4 +1,5 @@
 class  Office(object):
+    ''' Class representing a party '''
     def __init__(self, office_data):
         self.name = office_data['name']
         self.type = office_data['office_type']

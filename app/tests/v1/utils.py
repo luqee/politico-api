@@ -1,6 +1,5 @@
-import datetime
-
 class Utils(object):
+    ''' This class contains helpers to use in tests '''
     def __init__(self):
         pass
     ADMIN = {
@@ -44,8 +43,8 @@ class Utils(object):
         {
             'name': 'Chama Kikuu',
             'hq_address': '564 Lon Road',
-            'logo_url': 'url/to/logo.jpg',
-            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitatio'
+            'logo_url': 'url/to/log.jpg',
+            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elitsed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
         },
         {
             'name': 'Party 2',
@@ -72,6 +71,7 @@ class Utils(object):
         },
     ]
     def register_user(self, client, user_type):
+        ''' This method registers a specific user '''
         if user_type == 'admin':
             client.post('api/v1/auth/user/register', json=self.ADMIN)
         elif user_type == 'politician':
@@ -80,36 +80,33 @@ class Utils(object):
             client.post('api/v1/auth/user/register', json=self.USER)
 
     def login_user(self, client, user_type):
-        
+        ''' This method logs in a specific user '''
+        data = {}
         if user_type == 'admin':
-            data = {
-                'email': self.ADMIN['email'],
-                'password': self.ADMIN['password']
-            }
-            return client.post('api/v1/auth/user/login', json=data)
+            data['email'] = self.ADMIN['email']
+            data['password'] = self.ADMIN['password']
         elif user_type == 'politician':
-            data = {
-                'email': self.POLITICIAN['email'],
-                'password': self.POLITICIAN['password'],
-            }
-            return client.post('api/v1/auth/user/login', json=data)
+            data['email'] = self.POLITICIAN['email']
+            data['password'] = self.POLITICIAN['password']
         else:
-            data = {
-                'email': self.USER['email'],
-                'password': self.USER['password'],
-            }
-            return client.post('api/v1/auth/user/login', json=data)
+            data['email'] = self.USER['email']
+            data['password'] = self.USER['password']
+        return client.post('api/v1/auth/user/login', json=data)
 
     def create_party(self, client, party, headers):
+        ''' This method creates a party '''
         client.post('api/v1/parties', json=party, headers=headers)
-    
+
     def create_office(self, client, office, headers):
+        ''' This method creates an office '''
         client.post('api/v1/offices', json=office, headers=headers)
-    
+
     def create_parties(self, client, headers):
+        ''' This method creates multiple parties '''
         for party in self.PARTIES:
             client.post('api/v1/parties', json=party, headers=headers)
-    
+
     def create_offices(self, client, headers):
+        ''' This method creates multiple offices '''
         for office in self.OFFICES:
             client.post('api/v1/offices', json=office, headers=headers)

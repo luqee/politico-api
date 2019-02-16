@@ -1,10 +1,11 @@
-from flask import request, abort, g
 from functools import wraps
+from flask import request, abort, g
 from app.api.v1.models import user
 from app import politico
 
-def login_required(f):
-    @wraps(f)
+def login_required(fun):
+    ''' Login required decorator'''
+    @wraps(fun)
     def wrapper(*args, **kwargs):
         # Get the access token from the header
         auth_header = request.headers.get('Authorization')
@@ -16,7 +17,6 @@ def login_required(f):
                 current_user = politico.get_user_by_id(user_id)
                 g.user = current_user
                 # Go ahead and handle the request, the user is authenticated
-                return f(*args, **kwargs)       
-            else:
-                abort(401)
+                return fun(*args, **kwargs)       
+            abort(401)
     return wrapper
