@@ -1,21 +1,23 @@
-from flask import current_app as app
 from datetime import datetime, timedelta
+from flask import current_app as app
 import jwt
 import bcrypt
 
 class User(object):
+    '''Class representing the base user '''
     def __init__(self, **kwargs):
         self.firstname = kwargs.get('firstname')
         self.lastname = kwargs.get('lastname')
-        self.username = kwargs.get('othername')
+        self.othername = kwargs.get('othername')
         self.email = kwargs.get('email')
-        self.phoneNumber = kwargs.get('phone_number')
+        self.phone_number = kwargs.get('phone_number')
         self.password = bcrypt.hashpw(kwargs.get('password').encode('utf8'), bcrypt.gensalt())
         self.is_admin = kwargs.get('is_admin')
         self.is_politician = kwargs.get('is_politician')
 
     def verify_password(self, password):
-        if bcrypt.checkpw(password.encode('utf8') , self.password):
+        ''' Function to verify password'''
+        if bcrypt.checkpw(password.encode('utf8'), self.password):
             return True
         return False
 
@@ -37,9 +39,9 @@ class User(object):
             )
             return jwt_string
 
-        except Exception as e:
+        except Exception as exception:
             # return an error in string format if an exception occurs
-            return str(e)
+            return str(exception)
 
     @staticmethod
     def decode_token(token):
@@ -56,11 +58,13 @@ class User(object):
             return "Invalid token. Please register or login"
 
 class Admin(User):
+    '''Class representing a admin '''
     def __init__(self, **kwargs):
         self.address = kwargs.get('address')
         super(Admin, self).__init__(**kwargs)
 
 class Politician(User):
+    '''Class representing a politician '''
     def __init__(self, **kwargs):
         self.home_county = kwargs.get('home_county')
         super(Politician, self).__init__(**kwargs)
