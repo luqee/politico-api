@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.com/luqee/politico-api.svg?branch=develop)](https://travis-ci.com/luqee/politico-api)
 [![Coverage Status](https://coveralls.io/repos/github/luqee/politico-api/badge.svg?branch=develop)](https://coveralls.io/github/luqee/politico-api?branch=develop)
 [![Maintainability](https://api.codeclimate.com/v1/badges/3a787cadf8c622507598/maintainability)](https://codeclimate.com/github/luqee/politico-api/maintainability)
-
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/68b518b918fd44d7a161ee78c3922932)](https://www.codacy.com/app/luqee/politico-api?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=luqee/politico-api&amp;utm_campaign=Badge_Grade)
 ## POLITICO-API
 Politico API is the back end to the Politico platform that enables citizens to give their mandate to politicians running for different government offices while building trust in the process through transparency.
 
